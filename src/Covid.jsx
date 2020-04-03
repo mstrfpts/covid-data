@@ -42,32 +42,34 @@ export default class Covid extends Component {
 
     return (
       <div>
-        <div className={"MajorCounts"}>
-          {dataReady ? (
-            <div>
-              CoVid-19
-              <div>{`Total Cases: ${this.getTotalCases()}`}</div>
-              <div>{`Active Cases: ${this.getActiveCases()}`}</div>
-              <div>{`Deaths: ${this.getDeaths()}`}</div>
-            </div>
-          ) : null}
-        </div>
+        <div className={"container"}>
+          <div className={"MajorCounts"}>
+            {dataReady ? (
+              <div>
+                <div className={"PageHeader"}>CoVid-19</div>
+                <div>{`Total Cases: ${this.getTotalCases()}`}</div>
+                <div>{`Active Cases: ${this.getActiveCases()}`}</div>
+                <div>{`Deaths: ${this.getDeaths()}`}</div>
+              </div>
+            ) : null}
+          </div>
 
-        <tr className={"TitleRow"}>
-          <th className={"Col"}>Country</th>
-          <th className={"Col"}>Case Count</th>
-          <th className={"Col"}>Active Case Count</th>
-          <th className={"Col"}>Deaths</th>
-        </tr>
-
-        {data.map(el => (
-          <tr className={"Row"} key={el.country}>
-            <td className={"Col"}>{el.country}</td>
-            <td className={"Col"}>{el.cases}</td>
-            <td className={"Col"}>{el.active}</td>
-            <td className={"Col"}>{el.deaths}</td>
+          <tr className={"TitleRow"}>
+            <th className={"Col"}>Country</th>
+            <th className={"Col"}>Case Count(+new)</th>
+            <th className={"Col"}>Active Case Count(+new)</th>
+            <th className={"Col"}>Deaths(+new)</th>
           </tr>
-        ))}
+
+          {data.map(el => (
+            <tr className={"Row"} key={el.country}>
+              <td className={"Col"}>{el.country}</td>
+              <td className={"Col"}>{`${el.cases} (+${el.todayCases})`}</td>
+              <td className={"Col"}>{el.active}</td>
+              <td className={"Col"}>{`${el.deaths} (+${el.todayCases})`}</td>
+            </tr>
+          ))}
+        </div>
       </div>
     );
   }

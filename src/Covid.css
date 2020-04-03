@@ -1,4 +1,7 @@
-.root {
+.container {
+  background-image: url(./covid.jpg);
+  background-size: contain;
+  position: relative;
 }
 
 @viewport {
@@ -6,9 +9,15 @@
   zoom: 1;
 }
 
+.PageHeader {
+  font-size: 50px;
+}
+
 .MajorCounts {
   text-align: center;
-  font-size: xx-large;
+  font-size: 20px;
+  background-color: azure;
+  opacity: 0.6;
 }
 
 .TitleRow {
@@ -16,23 +25,30 @@
   border: 2px solid black;
   display: flex;
   background-color: lightgray;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .Col {
   flex: 1;
+  padding: 2px;
 }
 
 .Row {
   display: flex;
   border: 1px solid black;
-  font-size: 18px;
+  font-size: 14px;
+  background-color: azure;
+  opacity: 0.7;
 }
 .Row:hover {
   background-color: lightblue;
 }
 
 @media screen and (max-width: 350px) {
+  .PageHeader {
+    font-size: 36px;
+  }
+
   .TitleRow {
     font-size: 8px;
   }
@@ -43,5 +59,23 @@
 
   .MajorCounts {
     font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 351px) and (max-width: 600px) {
+  .PageHeader {
+    font-size: 40px;
+  }
+
+  .TitleRow {
+    font-size: 10px;
+  }
+
+  .Row {
+    font-size: 8px;
+  }
+
+  .MajorCounts {
+    font-size: 14px;
   }
 }

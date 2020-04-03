@@ -1,0 +1,25 @@
+.root {
+}
+
+.MajorCounts {
+  text-align: center;
+  font-size: xx-large;
+}
+
+.TitleRow {
+  text-align: left;
+  border: 2px solid black;
+  display: flex;
+  background-color: lightgray;
+}
+
+.TitleCol {
+  flex: 1;
+  margin: 5px 100px 0px 10px;
+  //font-size: 20px;
+}
+
+.Row {
+  display: flex;
+  border: 1px solid black;
+}

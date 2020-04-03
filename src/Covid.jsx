@@ -5,42 +5,45 @@ import _ from "lodash";
 export default class Covid extends Component {
   constructor() {
     super();
-    this.state = { data: [], DataReady: false };
+    this.state = { data: [], dataReady: false };
   }
 
   componentDidMount() {
     fetch(`https://corona.lmao.ninja/countries`)
       .then(res => res.json())
       .then(json => this.setState({ data: json }))
-      .then(this.setState({ DataReady: true }));
+      .then(this.setState({ dataReady: true }));
   }
 
   getTotalCases = () => {
-    let sumis = _.sumBy(this.state.data, el => {
+    let sumIs = _.sumBy(this.state.data, el => {
       return el.cases;
     });
-    return sumis;
+    return sumIs;
   };
 
   getActiveCases = () => {
-    let sumis = _.sumBy(this.state.data, el => {
+    let sumIs = _.sumBy(this.state.data, el => {
       return el.active;
     });
-    return sumis;
+    return sumIs;
   };
 
   getDeaths = () => {
-    let sumis = _.sumBy(this.state.data, el => {
+    let sumIs = _.sumBy(this.state.data, el => {
       return el.deaths;
     });
-    return sumis;
+    return sumIs;
   };
 
   render() {
+    console.log("derd", this.state);
+    const { data, dataReady } = this.state;
+
     return (
       <div>
         <div className={"MajorCounts"}>
-          {this.state.DataReady ? (
+          {dataReady ? (
             <div>
               CoVid-19
               <div>{`Total Cases: ${this.getTotalCases()}`}</div>
@@ -51,18 +54,18 @@ export default class Covid extends Component {
         </div>
 
         <tr className={"TitleRow"}>
-          <th className={"TitleCol"}>Country</th>
-          <th className={"TitleCol"}>Case Count</th>
-          <th className={"TitleCol"}>Active Case Count</th>
-          <th className={"TitleCol"}>Deaths</th>
+          <th className={"Col"}>Country</th>
+          <th className={"Col"}>Case Count</th>
+          <th className={"Col"}>Active Case Count</th>
+          <th className={"Col"}>Deaths</th>
         </tr>
 
-        {this.state.data.map(el => (
+        {data.map(el => (
           <tr className={"Row"} key={el.country}>
-            <td className={"TitleCol"}>{el.country}</td>
-            <td className={"TitleCol"}>{el.cases}</td>
-            <td className={"TitleCol"}>{el.active}</td>
-            <td className={"TitleCol"}>{el.deaths}</td>
+            <td className={"Col"}>{el.country}</td>
+            <td className={"Col"}>{el.cases}</td>
+            <td className={"Col"}>{el.active}</td>
+            <td className={"Col"}>{el.deaths}</td>
           </tr>
         ))}
       </div>

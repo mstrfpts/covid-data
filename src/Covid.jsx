@@ -37,7 +37,6 @@ export default class Covid extends Component {
   };
 
   render() {
-    console.log("state is ", this.state);
     return (
       <div>
         <div className={"MajorCounts"}>

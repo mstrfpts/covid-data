@@ -57,7 +57,7 @@ export default class Covid extends Component {
           <tr className={"TitleRow"}>
             <th className={"Col"}>Country</th>
             <th className={"Col"}>Case Count(+new)</th>
-            <th className={"Col"}>Active Case Count(+new)</th>
+            <th className={"Col"}>Active Case Count</th>
             <th className={"Col"}>Deaths(+new)</th>
           </tr>
 

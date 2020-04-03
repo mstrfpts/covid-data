@@ -1,14 +1,15 @@
 import React, { Component } from "react";
+import "../Covid.css";
 
 class Footer extends Component {
   render() {
     return (
       <footer>
         <nav>
-          <ul>
-            <a href="#"> Covid</a>|<a href="#"> Help </a>|
-            <a href="#"> Contact </a>
-          </ul>
+          <div class="tooltip">
+            Contact Team
+            <span class="tooltiptext">mstrfpts@gmail.com</span>
+          </div>
         </nav>
       </footer>
     );

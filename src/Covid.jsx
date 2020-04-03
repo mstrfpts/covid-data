@@ -66,7 +66,7 @@ export default class Covid extends Component {
               <td className={"Col"}>{el.country}</td>
               <td className={"Col"}>{`${el.cases} (+${el.todayCases})`}</td>
               <td className={"Col"}>{el.active}</td>
-              <td className={"Col"}>{`${el.deaths} (+${el.todayCases})`}</td>
+              <td className={"Col"}>{`${el.deaths} (+${el.todayDeaths})`}</td>
             </tr>
           ))}
         </div>

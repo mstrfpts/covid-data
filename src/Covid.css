@@ -1,6 +1,11 @@
 .root {
 }
 
+@viewport {
+  width: device-width;
+  zoom: 1;
+}
+
 .MajorCounts {
   text-align: center;
   font-size: xx-large;
@@ -11,15 +16,32 @@
   border: 2px solid black;
   display: flex;
   background-color: lightgray;
+  font-size: 20px;
 }
 
-.TitleCol {
+.Col {
   flex: 1;
-  margin: 5px 100px 0px 10px;
-  //font-size: 20px;
 }
 
 .Row {
   display: flex;
   border: 1px solid black;
+  font-size: 18px;
+}
+.Row:hover {
+  background-color: lightblue;
+}
+
+@media screen and (max-width: 350px) {
+  .TitleRow {
+    font-size: 10px;
+  }
+
+  .Row {
+    font-size: 8px;
+  }
+
+  .MajorCounts {
+    font-size: 15px;
+  }
 }

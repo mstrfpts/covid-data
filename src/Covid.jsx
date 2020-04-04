@@ -5,7 +5,7 @@ import _ from "lodash";
 export default class Covid extends Component {
   constructor() {
     super();
-    this.state = { data: [], dataReady: false, updated: `` };
+    this.state = { data: [], dataReady: false };
   }
 
   componentDidMount() {
@@ -75,6 +75,7 @@ export default class Covid extends Component {
   render() {
     const { data, dataReady } = this.state;
 
+    //console.log("derd, ", this.state);
     return (
       <div>
         <div className={"container"}>
@@ -103,9 +104,13 @@ export default class Covid extends Component {
             <th className={"Col"}>Deaths(+new)</th>
           </tr>
 
-          {data.map(el => (
+          {data.map((el, index) => (
             <tr className={"Row"} key={el.country}>
-              <td className={"Col"}>{el.country}</td>
+              <td className={"Col"}>
+                {index + 1 + ". "}
+                <img src={el.countryInfo.flag} height={15} width={15} />
+                {"   " + el.country}
+              </td>
               <td className={"Col"}>{`${el.cases} (+${el.todayCases})`}</td>
               <td className={"Col"}>{el.active}</td>
               <td className={"Col"}>{`${el.deaths} (+${el.todayDeaths})`}</td>

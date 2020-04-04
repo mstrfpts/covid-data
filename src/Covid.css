@@ -46,6 +46,7 @@
   opacity: 0.8;
   letter-spacing: 1px;
   font-weight: bold;
+  padding: 3px;
 }
 .Row:hover {
   background-color: lightblue;

@@ -17,23 +17,42 @@ export default class Covid extends Component {
 
   getTotalCases = () => {
     let sumIs = _.sumBy(this.state.data, el => {
-      return el.cases;
+      if (el.country == "World") {
+        return 0;
+      } else {
+        return el.cases;
+      }
     });
     return sumIs;
   };
 
   getActiveCases = () => {
     let sumIs = _.sumBy(this.state.data, el => {
-      return el.active;
+      if (el.country == "World") {
+        return 0;
+      } else {
+        return el.active;
+      }
     });
     return sumIs;
   };
 
   getDeaths = () => {
     let sumIs = _.sumBy(this.state.data, el => {
-      return el.deaths;
+      if (el.country == "World") {
+        return 0;
+      } else {
+        return el.deaths;
+      }
     });
     return sumIs;
+  };
+
+  refreshData = () => {
+    fetch(`https://corona.lmao.ninja/countries`)
+      .then(res => res.json())
+      .then(json => this.setState({ data: json }))
+      .then(this.setState({ dataReady: true }));
   };
 
   render() {
@@ -52,6 +71,9 @@ export default class Covid extends Component {
                 <div>{`Deaths: ${this.getDeaths()}`}</div>
               </div>
             ) : null}
+            <div className={"Refresh"}>
+              <button onClick={this.refreshData}>Refresh</button>
+            </div>
           </div>
 
           <tr className={"TitleRow"}>

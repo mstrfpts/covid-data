@@ -122,3 +122,8 @@
   visibility: visible;
   opacity: 1;
 }
+
+.Refresh {
+  text-align: left;
+  padding: 2px;
+}

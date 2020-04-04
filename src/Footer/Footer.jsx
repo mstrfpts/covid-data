@@ -6,9 +6,9 @@ class Footer extends Component {
     return (
       <footer>
         <nav>
-          <div class="tooltip">
+          <div className="tooltip">
             Contact Team
-            <span class="tooltiptext">mstrfpts@gmail.com</span>
+            <span className="tooltiptext">mstrfpts@gmail.com</span>
           </div>
         </nav>
       </footer>

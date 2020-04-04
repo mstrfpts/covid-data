@@ -5,7 +5,7 @@ import _ from "lodash";
 export default class Covid extends Component {
   constructor() {
     super();
-    this.state = { data: [], dataReady: false };
+    this.state = { data: [], dataReady: false, updated: `` };
   }
 
   componentDidMount() {
@@ -66,8 +66,13 @@ export default class Covid extends Component {
       .then(this.setState({ dataReady: true }));
   };
 
+  getUpdatedTimeInfo = () => {
+    let epochDate = this.state.data[0] ? this.state.data[0].updated : null;
+    let dateArray = (new Date(epochDate) + "").split(" ");
+    return `${dateArray[4]} ${dateArray[5]}`;
+  };
+
   render() {
-    console.log("derd", this.state);
     const { data, dataReady } = this.state;
 
     return (
@@ -78,12 +83,15 @@ export default class Covid extends Component {
               <div className={"Title"}>CoVid-19</div>
               <div className={"MajorCounts"}>
                 <div>{`Total Cases: ${this.getTotalCases()}`}</div>
-                <div>{`Active Cases: ${this.getActiveCases()}`}</div>
-                <div>{`Recovered Cases: ${this.getRecoveredCases()}`}</div>
-                <div>{`Deaths: ${this.getDeaths()}`}</div>
+                <div>{`Active: ${this.getActiveCases()}`}</div>
+                <div> {`Recovered: ${this.getRecoveredCases()}`}</div>
+                <div> {`Deaths: ${this.getDeaths()}`}</div>
               </div>
               <div className={"Refresh"}>
                 <button onClick={this.refreshData}>Refresh</button>
+                <div
+                  className={"UpdatedTime"}
+                >{`Data Updated at ${this.getUpdatedTimeInfo()}`}</div>
               </div>
             </div>
           ) : null}

@@ -9,15 +9,18 @@
   zoom: 1;
 }
 
-.PageHeader {
+.Header {
+  text-align: center;
+  background-color: azure;
+  opacity: 0.6;
+}
+
+.Title {
   font-size: 50px;
 }
 
 .MajorCounts {
-  text-align: center;
-  font-size: 20px;
-  background-color: azure;
-  opacity: 0.6;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -62,7 +65,7 @@
   }
 
   .MajorCounts {
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 
@@ -80,7 +83,7 @@
   }
 
   .MajorCounts {
-    font-size: 14px;
+    font-size: 18px;
   }
 }
 

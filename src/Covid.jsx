@@ -17,7 +17,7 @@ export default class Covid extends Component {
 
   getTotalCases = () => {
     let sumIs = _.sumBy(this.state.data, el => {
-      if (el.country == "World") {
+      if (el.country === "World") {
         return 0;
       } else {
         return el.cases;
@@ -28,7 +28,7 @@ export default class Covid extends Component {
 
   getActiveCases = () => {
     let sumIs = _.sumBy(this.state.data, el => {
-      if (el.country == "World") {
+      if (el.country === "World") {
         return 0;
       } else {
         return el.active;
@@ -39,10 +39,21 @@ export default class Covid extends Component {
 
   getDeaths = () => {
     let sumIs = _.sumBy(this.state.data, el => {
-      if (el.country == "World") {
+      if (el.country === "World") {
         return 0;
       } else {
         return el.deaths;
+      }
+    });
+    return sumIs;
+  };
+
+  getRecoveredCases = () => {
+    let sumIs = _.sumBy(this.state.data, el => {
+      if (el.country === "World") {
+        return 0;
+      } else {
+        return el.recovered;
       }
     });
     return sumIs;
@@ -62,19 +73,20 @@ export default class Covid extends Component {
     return (
       <div>
         <div className={"container"}>
-          <div className={"MajorCounts"}>
-            {dataReady ? (
-              <div>
-                <div className={"PageHeader"}>CoVid-19</div>
+          {dataReady ? (
+            <div className="Header">
+              <div className={"Title"}>CoVid-19</div>
+              <div className={"MajorCounts"}>
                 <div>{`Total Cases: ${this.getTotalCases()}`}</div>
                 <div>{`Active Cases: ${this.getActiveCases()}`}</div>
+                <div>{`Recovered Cases: ${this.getRecoveredCases()}`}</div>
                 <div>{`Deaths: ${this.getDeaths()}`}</div>
               </div>
-            ) : null}
-            <div className={"Refresh"}>
-              <button onClick={this.refreshData}>Refresh</button>
+              <div className={"Refresh"}>
+                <button onClick={this.refreshData}>Refresh</button>
+              </div>
             </div>
-          </div>
+          ) : null}
 
           <tr className={"TitleRow"}>
             <th className={"Col"}>Country</th>

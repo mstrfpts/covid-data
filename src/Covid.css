@@ -38,6 +38,10 @@
   padding: 2px;
 }
 
+.Search {
+  background-color: azure;
+  opacity: 0.8;
+}
 .Row {
   display: flex;
   border: 1px solid black;

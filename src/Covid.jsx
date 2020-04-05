@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SearchComponent from "./SearchComponent";
 import "./Covid.css";
 import _ from "lodash";
 
@@ -97,6 +98,9 @@ export default class Covid extends Component {
             </div>
           ) : null}
 
+          <div className={"Search"}>
+            <SearchComponent />
+          </div>
           <tr className={"TitleRow"}>
             <th className={"Col"}>Country</th>
             <th className={"Col"}>Case Count(+new)</th>
@@ -107,7 +111,7 @@ export default class Covid extends Component {
           {data.map((el, index) => (
             <tr className={"Row"} key={el.country}>
               <td className={"Col"}>
-                {index + 1 + ". "}
+                {index + 1 + "."}
                 <img src={el.countryInfo.flag} height={15} width={15} />
                 {"   " + el.country}
               </td>

@@ -41,6 +41,7 @@
 .Search {
   background-color: azure;
   opacity: 0.8;
+  padding: 2px;
 }
 .Row {
   display: flex;

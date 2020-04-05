@@ -1,19 +1,17 @@
 import React, { Component } from "react";
-import SearchComponent from "./SearchComponent";
 import "./Covid.css";
 import _ from "lodash";
 
 export default class Covid extends Component {
   constructor() {
     super();
-    this.state = { data: [], dataReady: false };
+    this.state = { data: [], filteredData: [], filterValue: "" };
   }
 
   componentDidMount() {
     fetch(`https://corona.lmao.ninja/countries`)
       .then(res => res.json())
-      .then(json => this.setState({ data: json }))
-      .then(this.setState({ dataReady: true }));
+      .then(json => this.setState({ data: json, filteredData: json }));
   }
 
   getTotalCases = () => {
@@ -64,7 +62,7 @@ export default class Covid extends Component {
     fetch(`https://corona.lmao.ninja/countries`)
       .then(res => res.json())
       .then(json => this.setState({ data: json }))
-      .then(this.setState({ dataReady: true }));
+      .then(this.debounceChangeHandler(this.state.filterValue));
   };
 
   getUpdatedTimeInfo = () => {
@@ -73,14 +71,29 @@ export default class Covid extends Component {
     return `${dateArray[4]} ${dateArray[5]}`;
   };
 
-  render() {
-    const { data, dataReady } = this.state;
+  debounceChangeHandler = _.debounce(searchQuery => {
+    let items = this.state.data;
+    items = _.filter(items, item => {
+      return (
+        item.country.toLowerCase().search(searchQuery.toLowerCase()) !== -1
+      );
+    });
+    this.setState({ filteredData: items });
+  }, 250);
 
-    //console.log("derd, ", this.state);
+  filterList = event => {
+    let searchQuery = event.target.value;
+    this.setState({ filterValue: searchQuery });
+    this.debounceChangeHandler(searchQuery);
+  };
+
+  render() {
+    const { filteredData, filterValue } = this.state;
+
     return (
       <div>
         <div className={"container"}>
-          {dataReady ? (
+          {this.state.data.length ? (
             <div className="Header">
               <div className={"Title"}>CoVid-19</div>
               <div className={"MajorCounts"}>
@@ -99,7 +112,16 @@ export default class Covid extends Component {
           ) : null}
 
           <div className={"Search"}>
-            <SearchComponent />
+            {this.state.data.length ? (
+              <form>
+                <input
+                  type="text"
+                  value={filterValue}
+                  placeholder="Search"
+                  onChange={this.filterList}
+                />
+              </form>
+            ) : null}
           </div>
           <tr className={"TitleRow"}>
             <th className={"Col"}>Country</th>
@@ -108,7 +130,7 @@ export default class Covid extends Component {
             <th className={"Col"}>Deaths(+new)</th>
           </tr>
 
-          {data.map((el, index) => (
+          {filteredData.map((el, index) => (
             <tr className={"Row"} key={el.country}>
               <td className={"Col"}>
                 {index + 1 + "."}

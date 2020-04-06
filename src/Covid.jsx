@@ -93,7 +93,6 @@ export default class Covid extends Component {
   };
 
   addCommasToNumber(x) {
-    console.log("derd commas", x);
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   }
 

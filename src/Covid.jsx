@@ -67,9 +67,9 @@ export default class Covid extends Component {
 
   getUpdatedTimeInfo = () => {
     let epochDate = this.state.data[0] ? this.state.data[0].updated : null;
-    let dateString = new Date(epochDate).toLocaleString();
-
-    return dateString;
+    let dateString = new Date(epochDate).toLocaleString().split(",");
+    let formattedDateString = `${dateString[1]}, ${dateString[0]}`;
+    return formattedDateString;
   };
 
   debounceChangeHandler = _.debounce(searchQuery => {

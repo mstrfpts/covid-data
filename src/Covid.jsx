@@ -9,7 +9,7 @@ export default class Covid extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://corona.lmao.ninja/countries`)
+    fetch(`https://corona.lmao.ninja/countries?sort=cases`)
       .then(res => res.json())
       .then(json => this.setState({ data: json, filteredData: json }));
   }

@@ -92,6 +92,11 @@ export default class Covid extends Component {
     this.setState({ filterValue: "" }, () => this.refreshData());
   };
 
+  addCommasToNumber(x) {
+    console.log("derd commas", x);
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   render() {
     const { filteredData, filterValue } = this.state;
 
@@ -160,13 +165,15 @@ export default class Covid extends Component {
                       />
                       {"   " + el.country}
                     </td>
-                    <td
-                      className={"Col"}
-                    >{`${el.cases} (+${el.todayCases})`}</td>
-                    <td className={"Col"}>{el.active}</td>
-                    <td
-                      className={"Col"}
-                    >{`${el.deaths} (+${el.todayDeaths})`}</td>
+                    <td className={"Col"}>{`${this.addCommasToNumber(
+                      el.cases
+                    )} (+${this.addCommasToNumber(el.todayCases)})`}</td>
+                    <td className={"Col"}>
+                      {this.addCommasToNumber(el.active)}
+                    </td>
+                    <td className={"Col"}>{`${this.addCommasToNumber(
+                      el.deaths
+                    )} (+${this.addCommasToNumber(el.todayDeaths)})`}</td>
                   </tr>
                 </tbody>
               </table>

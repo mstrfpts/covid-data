@@ -22,7 +22,7 @@ export default class Covid extends Component {
         return el.cases;
       }
     });
-    return sumIs;
+    return this.addCommasToNumber(sumIs);
   };
 
   getActiveCases = () => {
@@ -33,7 +33,7 @@ export default class Covid extends Component {
         return el.active;
       }
     });
-    return sumIs;
+    return this.addCommasToNumber(sumIs);
   };
 
   getDeaths = () => {
@@ -44,7 +44,7 @@ export default class Covid extends Component {
         return el.deaths;
       }
     });
-    return sumIs;
+    return this.addCommasToNumber(sumIs);
   };
 
   getRecoveredCases = () => {
@@ -55,7 +55,7 @@ export default class Covid extends Component {
         return el.recovered;
       }
     });
-    return sumIs;
+    return this.addCommasToNumber(sumIs);
   };
 
   refreshData = () => {

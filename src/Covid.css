@@ -43,6 +43,24 @@
   opacity: 0.8;
   padding: 2px;
 }
+
+.Refresh {
+  text-align: left;
+  padding: 2px;
+}
+
+.FilterClear {
+  position: absolute;
+  left: 95px;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 0px 5px;
+}
+
+.FilterClear:hover {
+  background: #bbb;
+}
+
 .Row {
   display: flex;
   border: 1px solid black;
@@ -142,9 +160,4 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
-}
-
-.Refresh {
-  text-align: left;
-  padding: 2px;
 }

@@ -88,6 +88,10 @@ export default class Covid extends Component {
     this.debounceChangeHandler(searchQuery);
   };
 
+  clearFilter = () => {
+    this.setState({ filterValue: "" }, () => this.refreshData());
+  };
+
   render() {
     const { filteredData, filterValue } = this.state;
 
@@ -121,7 +125,11 @@ export default class Covid extends Component {
                   placeholder="Search"
                   onChange={this.filterList}
                 />
-                {/*<i className={"FilterClear"}>X</i>*/}
+                {this.state.filterValue ? (
+                  <span class={"FilterClear"} onClick={this.clearFilter}>
+                    &times;
+                  </span>
+                ) : null}
               </form>
             ) : null}
           </div>

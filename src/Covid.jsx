@@ -92,6 +92,11 @@ export default class Covid extends Component {
     this.setState({ filterValue: "" }, () => this.refreshData());
   };
 
+  setStickyHeader = () => {
+    let header = document.getElementById("Header");
+    let sticky = header;
+  };
+
   render() {
     const { filteredData, filterValue } = this.state;
 
@@ -133,25 +138,45 @@ export default class Covid extends Component {
               </form>
             ) : null}
           </div>
-          <tr className={"TitleRow"}>
-            <th className={"Col"}>Country</th>
-            <th className={"Col"}>Case Count(+new)</th>
-            <th className={"Col"}>Active Case Count</th>
-            <th className={"Col"}>Deaths(+new)</th>
-          </tr>
 
-          {filteredData.map((el, index) => (
-            <tr className={"Row"} key={el.country}>
-              <td className={"Col"}>
-                {index + 1 + "."}
-                <img src={el.countryInfo.flag} height={15} width={15} />
-                {"   " + el.country}
-              </td>
-              <td className={"Col"}>{`${el.cases} (+${el.todayCases})`}</td>
-              <td className={"Col"}>{el.active}</td>
-              <td className={"Col"}>{`${el.deaths} (+${el.todayDeaths})`}</td>
-            </tr>
-          ))}
+          <table id="Header" className={"Table"}>
+            <tbody>
+              <tr className={"TitleRow"}>
+                <th className={"Col"}>Country</th>
+                <th className={"Col"}>Case Count(+new)</th>
+                <th className={"Col"}>Active Case Count</th>
+                <th className={"Col"}>Deaths(+new)</th>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style={{ height: window.innerHeight }} className={"Scroll"}>
+            {filteredData.map((el, index) => (
+              <table className={"Table"} key={el.country}>
+                <tbody>
+                  <tr className={"Row"} key={el.country}>
+                    <td className={"Col"}>
+                      {index + 1 + "."}
+                      <img
+                        src={el.countryInfo.flag}
+                        height={15}
+                        width={15}
+                        alt={el.countryInfo.flag}
+                      />
+                      {"   " + el.country}
+                    </td>
+                    <td
+                      className={"Col"}
+                    >{`${el.cases} (+${el.todayCases})`}</td>
+                    <td className={"Col"}>{el.active}</td>
+                    <td
+                      className={"Col"}
+                    >{`${el.deaths} (+${el.todayDeaths})`}</td>
+                  </tr>
+                </tbody>
+              </table>
+            ))}
+          </div>
         </div>
       </div>
     );

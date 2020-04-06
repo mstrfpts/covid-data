@@ -33,9 +33,17 @@
   font-weight: bold;
 }
 
+.Table {
+  width: 100%;
+  border-spacing: 0px;
+}
 .Col {
   flex: 1;
   padding: 2px;
+}
+
+.Scroll {
+  overflow-y: scroll;
 }
 
 .Search {

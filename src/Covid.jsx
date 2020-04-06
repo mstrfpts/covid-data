@@ -92,11 +92,6 @@ export default class Covid extends Component {
     this.setState({ filterValue: "" }, () => this.refreshData());
   };
 
-  setStickyHeader = () => {
-    let header = document.getElementById("Header");
-    let sticky = header;
-  };
-
   render() {
     const { filteredData, filterValue } = this.state;
 

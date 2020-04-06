@@ -67,8 +67,9 @@ export default class Covid extends Component {
 
   getUpdatedTimeInfo = () => {
     let epochDate = this.state.data[0] ? this.state.data[0].updated : null;
-    let dateArray = (new Date(epochDate) + "").split(" ");
-    return `${dateArray[4]} ${dateArray[5]}`;
+    let dateString = new Date(epochDate).toLocaleString();
+
+    return dateString;
   };
 
   debounceChangeHandler = _.debounce(searchQuery => {
@@ -106,7 +107,7 @@ export default class Covid extends Component {
                 <button onClick={this.refreshData}>Refresh</button>
                 <div
                   className={"UpdatedTime"}
-                >{`Data Updated at ${this.getUpdatedTimeInfo()}`}</div>
+                >{`Data Updated: ${this.getUpdatedTimeInfo()}`}</div>
               </div>
             </div>
           ) : null}
@@ -120,6 +121,7 @@ export default class Covid extends Component {
                   placeholder="Search"
                   onChange={this.filterList}
                 />
+                {/*<i className={"FilterClear"}>X</i>*/}
               </form>
             ) : null}
           </div>

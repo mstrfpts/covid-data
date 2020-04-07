@@ -44,6 +44,8 @@
 
 .Scroll {
   overflow-y: scroll;
+  background-color: azure;
+  opacity: 0.8;
 }
 
 .Search {

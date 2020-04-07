@@ -5,10 +5,19 @@ import _ from "lodash";
 export default class Covid extends Component {
   constructor() {
     super();
-    this.state = { data: [], filteredData: [], filterValue: "" };
+    this.state = {
+      data: [],
+      filteredData: [],
+      filterValue: "",
+      yesterdayData: []
+    };
   }
 
   componentDidMount() {
+    fetch(`https://corona.lmao.ninja/countries?sort=cases`)
+      .then(res => res.json())
+      .then(json => this.setState({ data: json, filteredData: json }));
+
     fetch(`https://corona.lmao.ninja/countries?sort=cases`)
       .then(res => res.json())
       .then(json => this.setState({ data: json, filteredData: json }));
@@ -96,6 +105,11 @@ export default class Covid extends Component {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  expandRow = event => {
+    console.log("derd, expand row", event.target);
+    return <div>{event}</div>;
+  };
+
   render() {
     const { filteredData, filterValue } = this.state;
 
@@ -142,9 +156,10 @@ export default class Covid extends Component {
             <tbody>
               <tr className={"TitleRow"}>
                 <th className={"Col"}>Country</th>
-                <th className={"Col"}>Case Count(+new)</th>
-                <th className={"Col"}>Active Case Count</th>
+                <th className={"Col"}>Cases(+new)</th>
+                <th className={"Col"}>Active </th>
                 <th className={"Col"}>Deaths(+new)</th>
+                <th className={"Col"}>Tests</th>
               </tr>
             </tbody>
           </table>
@@ -153,7 +168,11 @@ export default class Covid extends Component {
             {filteredData.map((el, index) => (
               <table className={"Table"} key={el.country}>
                 <tbody>
-                  <tr className={"Row"} key={el.country}>
+                  <tr
+                    className={"Row"}
+                    key={el.country}
+                    onClick={this.expandRow}
+                  >
                     <td className={"Col"}>
                       {index + 1 + "."}
                       <img
@@ -173,6 +192,9 @@ export default class Covid extends Component {
                     <td className={"Col"}>{`${this.addCommasToNumber(
                       el.deaths
                     )} (+${this.addCommasToNumber(el.todayDeaths)})`}</td>
+                    <td className={"Col"}>{`${this.addCommasToNumber(
+                      el.tests
+                    )}`}</td>
                   </tr>
                 </tbody>
               </table>

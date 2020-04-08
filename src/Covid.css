@@ -89,50 +89,6 @@
   font-size: 12px;
 }
 
-@media screen and (max-width: 350px) {
-  .PageHeader {
-    font-size: 36px;
-  }
-
-  .TitleRow {
-    font-size: 9px;
-  }
-
-  .Row {
-    font-size: 7px;
-  }
-
-  .MajorCounts {
-    font-size: 16px;
-  }
-
-  .UpdatedTime {
-    font-size: 6px;
-  }
-}
-
-@media screen and (min-width: 351px) and (max-width: 600px) {
-  .PageHeader {
-    font-size: 40px;
-  }
-
-  .TitleRow {
-    font-size: 12px;
-  }
-
-  .Row {
-    font-size: 10px;
-  }
-
-  .MajorCounts {
-    font-size: 18px;
-  }
-
-  .UpdatedTime {
-    font-size: 8px;
-  }
-}
-
 .tooltip {
   position: relative;
   display: inline-block;
@@ -170,4 +126,52 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+@media screen and (max-width: 350px) {
+  .PageHeader {
+    font-size: 36px;
+  }
+
+  .TitleRow {
+    font-size: 9px;
+  }
+
+  .Row {
+    font-size: 7px;
+  }
+
+  .MajorCounts {
+    font-size: 16px;
+  }
+
+  .UpdatedTime {
+    font-size: 6px;
+  }
+
+  .filterClear {
+    left: 120px;
+  }
+}
+
+@media screen and (min-width: 351px) and (max-width: 600px) {
+  .PageHeader {
+    font-size: 40px;
+  }
+
+  .TitleRow {
+    font-size: 12px;
+  }
+
+  .Row {
+    font-size: 10px;
+  }
+
+  .MajorCounts {
+    font-size: 18px;
+  }
+
+  .UpdatedTime {
+    font-size: 8px;
+  }
 }

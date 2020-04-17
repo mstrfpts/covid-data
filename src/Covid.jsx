@@ -14,11 +14,11 @@ export default class Covid extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://corona.lmao.ninja/countries?sort=cases`)
+    fetch(`https://corona.lmao.ninja/v2/countries?sort=cases`)
       .then(res => res.json())
       .then(json => this.setState({ data: json, filteredData: json }));
 
-    fetch(`https://corona.lmao.ninja/countries?sort=cases`)
+    fetch(`https://corona.lmao.ninja/v2/countries?sort=cases`)
       .then(res => res.json())
       .then(json => this.setState({ data: json, filteredData: json }));
   }
@@ -68,7 +68,7 @@ export default class Covid extends Component {
   };
 
   refreshData = () => {
-    fetch(`https://corona.lmao.ninja/countries?sort=cases`)
+    fetch(`https://corona.lmao.ninja/v2/countries?sort=cases`)
       .then(res => res.json())
       .then(json => this.setState({ data: json }))
       .then(this.debounceChangeHandler(this.state.filterValue));

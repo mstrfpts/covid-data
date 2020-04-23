@@ -1,0 +1,36 @@
+.row {
+  display: flex;
+  border: 1px solid black;
+  letter-spacing: 1px;
+  font-weight: bold;
+  padding: 3px;
+}
+
+.row:hover {
+  background-color: lightblue;
+}
+
+.column {
+  flex: 1 1;
+  padding: 2px;
+}
+
+@media screen and (max-width: 350px) {
+  .TitleRow {
+    font-size: 9px;
+  }
+
+  .row {
+    font-size: 7px;
+  }
+}
+
+@media screen and (min-width: 351px) and (max-width: 600px) {
+  .TitleRow {
+    font-size: 12px;
+  }
+
+  .row {
+    font-size: 10px;
+  }
+}

@@ -7,7 +7,6 @@ export default class TableRows extends Component {
   }
 
   clickHandler = () => {
-    console.log("derd clicked", this.props.row.country);
     this.props.updateGraph(this.props.row.country);
   };
 

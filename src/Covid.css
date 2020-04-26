@@ -35,6 +35,11 @@
   justify-content: center;
 }
 
+.graphPlaceHolder {
+  height: 220px;
+  width: 200px;
+}
+
 .TitleRow {
   text-align: left;
   border: 1px solid black;

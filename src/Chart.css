@@ -6,6 +6,8 @@
 
 @media screen and (max-width: 350px) {
   .graphContainer {
+    height: 150px;
+    width: 150px;
     margin: 0;
   }
 }

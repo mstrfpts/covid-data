@@ -11,7 +11,8 @@ export default class Covid extends Component {
       data: [],
       filteredData: [],
       filterValue: "",
-      countrySelected: {}
+      countrySelected: {},
+      displayGraph: true
     };
   }
 
@@ -111,6 +112,11 @@ export default class Covid extends Component {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  toggleGraphicalView = () => {
+    console.log("derd state", this.state);
+    this.setState({ displayGraph: !this.state.displayGraph });
+  };
+
   updateCountryHistoricalData = countryData => {
     this.setState({
       countrySelected: {
@@ -167,10 +173,13 @@ export default class Covid extends Component {
             ) : null}
 
             <div className={"countryStats"}>
-              {this.state.countrySelected.country &&
-              this.state.countrySelected.historicalData ? (
-                <div>
-                  {
+              {this.state.displayGraph ? (
+                this.state.countrySelected.country &&
+                this.state.countrySelected.historicalData ? (
+                  <div className={"graphDisplay"}>
+                    <button onClick={this.toggleGraphicalView}>
+                      Close Graphical View
+                    </button>
                     <div className={"gContainer"}>
                       <Chart
                         country={this.state.countrySelected.country}
@@ -189,10 +198,16 @@ export default class Covid extends Component {
                         color={"red"}
                       />
                     </div>
-                  }
-                </div>
+                  </div>
+                ) : (
+                  <div className={"graphPlaceHolder"}></div>
+                )
               ) : (
-                <div className={"graphPlaceHolder"}></div>
+                <div className={"graphDisplay"}>
+                  <button onClick={this.toggleGraphicalView}>
+                    Show Graphical View
+                  </button>
+                </div>
               )}
             </div>
 

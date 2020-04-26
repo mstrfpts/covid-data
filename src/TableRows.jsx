@@ -6,6 +6,11 @@ export default class TableRows extends Component {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  clickHandler = () => {
+    console.log("derd clicked", this.props.row.country);
+    this.props.updateGraph(this.props.row.country);
+  };
+
   render() {
     const { index } = this.props;
     const {
@@ -19,10 +24,9 @@ export default class TableRows extends Component {
       active
     } = this.props.row;
     const { flag } = this.props.row.countryInfo;
-    console.log("derd, props of rows", this.props.row);
-    console.log("derd1", flag);
+
     return (
-      <tr className={"row"} key={_id}>
+      <tr className={"row"} key={_id} onClick={this.clickHandler}>
         <td className={"column"}>
           {`${index + 1}. `}
 

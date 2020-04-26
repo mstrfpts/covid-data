@@ -24,6 +24,17 @@
   font-weight: bold;
 }
 
+.countryStats {
+  background-color: azure;
+  color: black;
+  opacity: 0.8;
+}
+
+.gContainer {
+  display: flex;
+  justify-content: center;
+}
+
 .TitleRow {
   text-align: left;
   border: 1px solid black;

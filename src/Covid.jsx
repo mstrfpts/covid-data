@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Covid.css";
 import _ from "lodash";
 import TableRows from "./TableRows";
+import Chart from "./Chart";
 
 export default class Covid extends Component {
   constructor() {
@@ -10,14 +11,22 @@ export default class Covid extends Component {
       data: [],
       filteredData: [],
       filterValue: "",
-      yesterdayData: []
+      countrySelected: {}
     };
   }
 
   componentDidMount() {
     fetch(`https://corona.lmao.ninja/v2/countries?sort=cases`)
       .then(res => res.json())
-      .then(json => this.setState({ data: json, filteredData: json }));
+      .then(json =>
+        this.setState(
+          {
+            data: json,
+            filteredData: json
+          },
+          () => this.updateGraph(json[0].country)
+        )
+      );
   }
 
   getTotalCases = () => {
@@ -102,9 +111,34 @@ export default class Covid extends Component {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  expandRow = event => {
-    console.log("derd, expand row", event.target);
-    return <div>{event}</div>;
+  updateCountryHistoricalData = countryData => {
+    this.setState({
+      countrySelected: {
+        ...this.state.countrySelected,
+        historicalData: countryData
+      }
+    });
+  };
+
+  updateGraph = countryClicked => {
+    let countrySelectedHistoricalData;
+    this.setState(
+      {
+        countrySelected: {
+          country: countryClicked
+        }
+      },
+      () => {
+        fetch(`https://corona.lmao.ninja/v2/historical/${countryClicked}`)
+          .then(res => res.json())
+          .then(json => (countrySelectedHistoricalData = json))
+          .then(countrySelectedHistoricalData =>
+            this.updateCountryHistoricalData(
+              countrySelectedHistoricalData.timeline
+            )
+          );
+      }
+    );
   };
 
   render() {
@@ -131,6 +165,35 @@ export default class Covid extends Component {
                 </div>
               </div>
             ) : null}
+
+            <div className={"countryStats"}>
+              {this.state.countrySelected.country &&
+              this.state.countrySelected.historicalData ? (
+                <div>
+                  {
+                    <div className={"gContainer"}>
+                      <Chart
+                        country={this.state.countrySelected.country}
+                        historicalData={
+                          this.state.countrySelected.historicalData.cases
+                        }
+                        parameter={"Cases"}
+                        color={"rgba(35, 52, 239, 1)"}
+                      />
+                      <Chart
+                        country={this.state.countrySelected.country}
+                        historicalData={
+                          this.state.countrySelected.historicalData.deaths
+                        }
+                        parameter={"Deaths"}
+                        color={"red"}
+                      />
+                      {/*<Chart countrySelected={this.state.countrySelected} />*/}
+                    </div>
+                  }
+                </div>
+              ) : null}
+            </div>
 
             <div className={"Search"}>
               {this.state.data.length ? (
@@ -163,7 +226,12 @@ export default class Covid extends Component {
 
               <div style={{ height: window.innerHeight }} className={"Scroll"}>
                 {filteredData.map((el, index) => (
-                  <TableRows row={el} index={index} />
+                  <TableRows
+                    key={index}
+                    row={el}
+                    index={index}
+                    updateGraph={this.updateGraph}
+                  />
                 ))}
               </div>
             </table>

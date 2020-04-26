@@ -188,11 +188,12 @@ export default class Covid extends Component {
                         parameter={"Deaths"}
                         color={"red"}
                       />
-                      {/*<Chart countrySelected={this.state.countrySelected} />*/}
                     </div>
                   }
                 </div>
-              ) : null}
+              ) : (
+                <div className={"graphPlaceHolder"}></div>
+              )}
             </div>
 
             <div className={"Search"}>
@@ -224,7 +225,10 @@ export default class Covid extends Component {
                 </tr>
               </tbody>
 
-              <div style={{ height: window.innerHeight }} className={"Scroll"}>
+              <div
+                style={{ height: window.innerHeight * 0.7 }}
+                className={"Scroll"}
+              >
                 {filteredData.map((el, index) => (
                   <TableRows
                     key={index}

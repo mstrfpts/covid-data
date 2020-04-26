@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./Covid.css";
 import _ from "lodash";
+import TableRows from "./TableRows";
+import Chart from "./Chart";
 
 export default class Covid extends Component {
   constructor() {
@@ -9,18 +11,22 @@ export default class Covid extends Component {
       data: [],
       filteredData: [],
       filterValue: "",
-      yesterdayData: []
+      countrySelected: {}
     };
   }
 
   componentDidMount() {
     fetch(`https://corona.lmao.ninja/v2/countries?sort=cases`)
       .then(res => res.json())
-      .then(json => this.setState({ data: json, filteredData: json }));
-
-    fetch(`https://corona.lmao.ninja/v2/countries?sort=cases`)
-      .then(res => res.json())
-      .then(json => this.setState({ data: json, filteredData: json }));
+      .then(json =>
+        this.setState(
+          {
+            data: json,
+            filteredData: json
+          },
+          () => this.updateGraph(json[0].country)
+        )
+      );
   }
 
   getTotalCases = () => {
@@ -105,100 +111,130 @@ export default class Covid extends Component {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  expandRow = event => {
-    console.log("derd, expand row", event.target);
-    return <div>{event}</div>;
+  updateCountryHistoricalData = countryData => {
+    this.setState({
+      countrySelected: {
+        ...this.state.countrySelected,
+        historicalData: countryData
+      }
+    });
+  };
+
+  updateGraph = countryClicked => {
+    let countrySelectedHistoricalData;
+    this.setState(
+      {
+        countrySelected: {
+          country: countryClicked
+        }
+      },
+      () => {
+        fetch(`https://corona.lmao.ninja/v2/historical/${countryClicked}`)
+          .then(res => res.json())
+          .then(json => (countrySelectedHistoricalData = json))
+          .then(countrySelectedHistoricalData =>
+            this.updateCountryHistoricalData(
+              countrySelectedHistoricalData.timeline
+            )
+          );
+      }
+    );
   };
 
   render() {
     const { filteredData, filterValue } = this.state;
 
     return (
-      <div>
-        <div className={"container"}>
-          {this.state.data.length ? (
-            <div className="Header">
-              <div className={"Title"}>CoVid-19</div>
-              <div className={"MajorCounts"}>
-                <div>{`Total Cases: ${this.getTotalCases()}`}</div>
-                <div>{`Active: ${this.getActiveCases()}`}</div>
-                <div> {`Recovered: ${this.getRecoveredCases()}`}</div>
-                <div> {`Deaths: ${this.getDeaths()}`}</div>
-              </div>
-              <div className={"Refresh"}>
-                <button onClick={this.refreshData}>Refresh</button>
-                <div
-                  className={"UpdatedTime"}
-                >{`Data Updated: ${this.getUpdatedTimeInfo()}`}</div>
-              </div>
-            </div>
-          ) : null}
-
-          <div className={"Search"}>
+      <div className={"imageContainer"}>
+        <div className={"backgroundContainer"}>
+          <div>
             {this.state.data.length ? (
-              <form>
-                <input
-                  type="text"
-                  value={filterValue}
-                  placeholder="Search"
-                  onChange={this.filterList}
-                />
-                {this.state.filterValue ? (
-                  <span class={"FilterClear"} onClick={this.clearFilter}>
-                    &times;
-                  </span>
-                ) : null}
-              </form>
+              <div className="Header">
+                <div className={"Title"}>CoVid-19</div>
+                <div className={"MajorCounts"}>
+                  <div>{`Total Cases: ${this.getTotalCases()}`}</div>
+                  <div>{`Active: ${this.getActiveCases()}`}</div>
+                  <div> {`Recovered: ${this.getRecoveredCases()}`}</div>
+                  <div> {`Deaths: ${this.getDeaths()}`}</div>
+                </div>
+                <div className={"Refresh"}>
+                  <button onClick={this.refreshData}>Refresh</button>
+                  <div
+                    className={"UpdatedTime"}
+                  >{`Data Updated: ${this.getUpdatedTimeInfo()}`}</div>
+                </div>
+              </div>
             ) : null}
-          </div>
 
-          <table id="Header" className={"Table"}>
-            <tbody>
-              <tr className={"TitleRow"}>
-                <th className={"Col"}>Country</th>
-                <th className={"Col"}>Cases(+new)</th>
-                <th className={"Col"}>Active </th>
-                <th className={"Col"}>Deaths(+new)</th>
-                <th className={"Col"}>Tests</th>
-              </tr>
-            </tbody>
-          </table>
-
-          <div style={{ height: window.innerHeight }} className={"Scroll"}>
-            {filteredData.map((el, index) => (
-              <table className={"Table"} key={el.country}>
-                <tbody>
-                  <tr
-                    className={"Row"}
-                    key={el.country}
-                    onClick={this.expandRow}
-                  >
-                    <td className={"Col"}>
-                      {index + 1 + "."}
-                      <img
-                        src={el.countryInfo.flag}
-                        height={15}
-                        width={15}
-                        alt={el.countryInfo.flag}
+            <div className={"countryStats"}>
+              {this.state.countrySelected.country &&
+              this.state.countrySelected.historicalData ? (
+                <div>
+                  {
+                    <div className={"gContainer"}>
+                      <Chart
+                        country={this.state.countrySelected.country}
+                        historicalData={
+                          this.state.countrySelected.historicalData.cases
+                        }
+                        parameter={"Cases"}
+                        color={"rgba(35, 52, 239, 1)"}
                       />
-                      {"   " + el.country}
-                    </td>
-                    <td className={"Col"}>{`${this.addCommasToNumber(
-                      el.cases
-                    )} (+${this.addCommasToNumber(el.todayCases)})`}</td>
-                    <td className={"Col"}>
-                      {this.addCommasToNumber(el.active)}
-                    </td>
-                    <td className={"Col"}>{`${this.addCommasToNumber(
-                      el.deaths
-                    )} (+${this.addCommasToNumber(el.todayDeaths)})`}</td>
-                    <td className={"Col"}>{`${this.addCommasToNumber(
-                      el.tests
-                    )}`}</td>
-                  </tr>
-                </tbody>
-              </table>
-            ))}
+                      <Chart
+                        country={this.state.countrySelected.country}
+                        historicalData={
+                          this.state.countrySelected.historicalData.deaths
+                        }
+                        parameter={"Deaths"}
+                        color={"red"}
+                      />
+                      {/*<Chart countrySelected={this.state.countrySelected} />*/}
+                    </div>
+                  }
+                </div>
+              ) : null}
+            </div>
+
+            <div className={"Search"}>
+              {this.state.data.length ? (
+                <form>
+                  <input
+                    type="text"
+                    value={filterValue}
+                    placeholder="Search"
+                    onChange={this.filterList}
+                  />
+                  {this.state.filterValue ? (
+                    <span class={"FilterClear"} onClick={this.clearFilter}>
+                      &times;
+                    </span>
+                  ) : null}
+                </form>
+              ) : null}
+            </div>
+
+            <table id="Header" className={"Table"}>
+              <tbody>
+                <tr className={"TitleRow"}>
+                  <th className={"Col"}>Country</th>
+                  <th className={"Col"}>Cases(+new)</th>
+                  <th className={"Col"}>Active </th>
+                  <th className={"Col"}>Deaths(+new)</th>
+                  <th className={"Col"}>Tests</th>
+                </tr>
+              </tbody>
+
+              <div style={{ height: window.innerHeight }} className={"Scroll"}>
+                {filteredData.map((el, index) => (
+                  <TableRows
+                    key={index}
+                    row={el}
+                    index={index}
+                    updateGraph={this.updateGraph}
+                  />
+                ))}
+              </div>
+            </table>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-.container {
+.imageContainer {
   background-image: url(./covid.jpg);
   background-size: contain;
   position: relative;
@@ -24,9 +24,20 @@
   font-weight: bold;
 }
 
+.countryStats {
+  background-color: azure;
+  color: black;
+  opacity: 0.8;
+}
+
+.gContainer {
+  display: flex;
+  justify-content: center;
+}
+
 .TitleRow {
   text-align: left;
-  border: 2px solid black;
+  border: 1px solid black;
   display: flex;
   background-color: lightgray;
   font-size: 16px;
@@ -36,6 +47,7 @@
 .Table {
   width: 100%;
   border-spacing: 0px;
+  border: 1px solid black;
 }
 .Col {
   flex: 1;
@@ -72,10 +84,7 @@
 
 .Row {
   display: flex;
-  border: 1px solid black;
   font-size: 14px;
-  background-color: azure;
-  opacity: 0.8;
   letter-spacing: 1px;
   font-weight: bold;
   padding: 3px;
@@ -128,10 +137,6 @@
 }
 
 @media screen and (max-width: 350px) {
-  .PageHeader {
-    font-size: 36px;
-  }
-
   .TitleRow {
     font-size: 9px;
   }
@@ -154,10 +159,6 @@
 }
 
 @media screen and (min-width: 351px) and (max-width: 600px) {
-  .PageHeader {
-    font-size: 40px;
-  }
-
   .TitleRow {
     font-size: 12px;
   }

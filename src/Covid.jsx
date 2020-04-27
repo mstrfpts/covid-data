@@ -117,6 +117,14 @@ export default class Covid extends Component {
     this.setState({ displayGraph: !this.state.displayGraph });
   };
 
+  scrollHeightSetter = () => {
+    let scrollHeight = this.state.displayGraph
+      ? window.innerHeight - 460
+      : window.innerHeight - 220;
+
+    return scrollHeight;
+  };
+
   updateCountryHistoricalData = countryData => {
     this.setState({
       countrySelected: {
@@ -173,42 +181,45 @@ export default class Covid extends Component {
             ) : null}
 
             <div className={"countryStats"}>
-              {this.state.displayGraph ? (
-                this.state.countrySelected.country &&
-                this.state.countrySelected.historicalData ? (
-                  <div className={"graphDisplay"}>
-                    <button onClick={this.toggleGraphicalView}>
-                      Close Graphical View
-                    </button>
-                    <div className={"gContainer"}>
-                      <Chart
-                        country={this.state.countrySelected.country}
-                        historicalData={
-                          this.state.countrySelected.historicalData.cases
-                        }
-                        parameter={"Cases"}
-                        color={"rgba(35, 52, 239, 1)"}
-                      />
-                      <Chart
-                        country={this.state.countrySelected.country}
-                        historicalData={
-                          this.state.countrySelected.historicalData.deaths
-                        }
-                        parameter={"Deaths"}
-                        color={"red"}
-                      />
-                    </div>
-                  </div>
+              <div className={"graphDisplay"}>
+                {this.state.displayGraph ? (
+                  <button onClick={this.toggleGraphicalView}>
+                    Close Graphical View
+                  </button>
                 ) : (
-                  <div className={"graphPlaceHolder"}></div>
-                )
-              ) : (
-                <div className={"graphDisplay"}>
                   <button onClick={this.toggleGraphicalView}>
                     Show Graphical View
                   </button>
-                </div>
-              )}
+                )}
+              </div>
+
+              {this.state.displayGraph ? (
+                this.state.countrySelected.country &&
+                this.state.countrySelected.historicalData ? (
+                  <div className={"gContainer"}>
+                    <Chart
+                      country={this.state.countrySelected.country}
+                      historicalData={
+                        this.state.countrySelected.historicalData.cases
+                      }
+                      parameter={"Cases"}
+                      color={"rgba(35, 52, 239, 1)"}
+                    />
+                    <Chart
+                      country={this.state.countrySelected.country}
+                      historicalData={
+                        this.state.countrySelected.historicalData.deaths
+                      }
+                      parameter={"Deaths"}
+                      color={"red"}
+                    />
+                  </div>
+                ) : (
+                  <div className={"graphPlaceHolder"}>
+                    No Graphical Information
+                  </div>
+                )
+              ) : null}
             </div>
 
             <div className={"Search"}>
@@ -241,7 +252,9 @@ export default class Covid extends Component {
               </tbody>
 
               <div
-                style={{ height: window.innerHeight * 0.7 }}
+                style={{
+                  height: this.scrollHeightSetter()
+                }}
                 className={"Scroll"}
               >
                 {filteredData.map((el, index) => (

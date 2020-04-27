@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Line } from "react-chartjs-2";
 import "./Chart.css";
-import _ from "lodash";
 
 export default class Chart extends Component {
   render() {

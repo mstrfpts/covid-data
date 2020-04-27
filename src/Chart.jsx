@@ -9,7 +9,7 @@ export default class Chart extends Component {
       datasets: [
         {
           label: `${this.props.country} ${this.props.parameter}`,
-          fill: false,
+          fill: true,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",
           borderColor: this.props.color, //"rgba(35, 52, 239, 1)", //"rgba(75,192,192,1)",
@@ -17,15 +17,15 @@ export default class Chart extends Component {
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: "miter",
-          pointBorderColor: "rgba(75,192,192,1)",
+          //pointBorderColor: "rgba(75,192,192,1)",
           pointBackgroundColor: "#fff",
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
+          //pointHoverBackgroundColor: "rgba(75,192,192,1)",
+          //pointHoverBorderColor: "rgba(220,220,220,1)",
+          //pointHoverBorderWidth: 2,
           pointRadius: 1,
-          pointHitRadius: 10,
+          //pointHitRadius: 10,
           data: Object.values(this.props.historicalData)
         }
       ]

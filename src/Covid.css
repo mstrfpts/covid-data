@@ -40,8 +40,10 @@
 }
 
 .graphPlaceHolder {
-  height: 220px;
-  width: 200px;
+  width: 100%;
+  padding: 100px 0;
+  border: 1px solid black;
+  text-align: center;
 }
 
 .TitleRow {

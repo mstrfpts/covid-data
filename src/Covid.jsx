@@ -12,7 +12,8 @@ export default class Covid extends Component {
       filteredData: [],
       filterValue: "",
       countrySelected: {},
-      displayGraph: true
+      displayGraph: true,
+      historicalDataFetched: true
     };
   }
 
@@ -144,13 +145,24 @@ export default class Covid extends Component {
       },
       () => {
         fetch(`https://corona.lmao.ninja/v2/historical/${countryClicked}`)
-          .then(res => res.json())
+          .then(response => {
+            if (response.ok) {
+              this.setState({ historicalDataFetched: true });
+              return response.json();
+            } else {
+              this.setState({ historicalDataFetched: false });
+              throw new Error("Historical fetch failed/timeout");
+            }
+          })
           .then(json => (countrySelectedHistoricalData = json))
           .then(countrySelectedHistoricalData =>
             this.updateCountryHistoricalData(
               countrySelectedHistoricalData.timeline
             )
-          );
+          )
+          .catch(error => {
+            console.log(error);
+          });
       }
     );
   };
@@ -216,7 +228,8 @@ export default class Covid extends Component {
                   </div>
                 ) : (
                   <div className={"graphPlaceHolder"}>
-                    No Graphical Information
+                    {this.state.historicalDataFetched ? `Awaiting ` : `No `}
+                    Graphical Information
                   </div>
                 )
               ) : null}

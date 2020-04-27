@@ -117,6 +117,14 @@ export default class Covid extends Component {
     this.setState({ displayGraph: !this.state.displayGraph });
   };
 
+  scrollHeightSetter = () => {
+    let scrollHeight = this.state.displayGraph
+      ? window.innerHeight - 460
+      : window.innerHeight - 220;
+
+    return scrollHeight;
+  };
+
   updateCountryHistoricalData = countryData => {
     this.setState({
       countrySelected: {
@@ -241,7 +249,9 @@ export default class Covid extends Component {
               </tbody>
 
               <div
-                style={{ height: window.innerHeight * 0.7 }}
+                style={{
+                  height: this.scrollHeightSetter()
+                }}
                 className={"Scroll"}
               >
                 {filteredData.map((el, index) => (

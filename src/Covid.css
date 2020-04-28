@@ -37,6 +37,7 @@
 .gContainer {
   display: flex;
   overflow: auto;
+  /*This was added in order to allow side scroll if needed*/
 }
 
 .graphPlaceHolder {

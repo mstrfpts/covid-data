@@ -8,6 +8,6 @@
   .graphContainer {
     height: 150px;
     width: 150px;
-    margin: 0;
+    margin: 0 -1px;
   }
 }

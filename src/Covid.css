@@ -36,7 +36,8 @@
 
 .gContainer {
   display: flex;
-  justify-content: center;
+  overflow: auto;
+  /*This was added in order to allow side scroll if needed*/
 }
 
 .graphPlaceHolder {
@@ -148,6 +149,10 @@
 }
 
 @media screen and (max-width: 350px) {
+  .gContainer {
+    margin: 0 -4px;
+  }
+
   .TitleRow {
     font-size: 9px;
   }

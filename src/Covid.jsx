@@ -208,7 +208,10 @@ export default class Covid extends Component {
               {this.state.displayGraph ? (
                 this.state.countrySelected.country &&
                 this.state.countrySelected.historicalData ? (
-                  <div className={"gContainer"}>
+                  <div
+                    style={{ width: window.innerWidth }}
+                    className={"gContainer"}
+                  >
                     <Chart
                       country={this.state.countrySelected.country}
                       historicalData={

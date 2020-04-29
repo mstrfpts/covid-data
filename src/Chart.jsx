@@ -35,9 +35,7 @@ export default class Chart extends Component {
         callbacks: {
           label: function(tooltipItem, data) {
             var value = data.datasets[0].data[tooltipItem.index];
-            value = value.toString();
-            value = value.split(/(?=(?:...)*$)/);
-            value = value.join(",");
+            value = nFormatter(value);
             return value;
           }
         }
@@ -49,9 +47,7 @@ export default class Chart extends Component {
               beginAtZero: true,
               userCallback: function(value, index, values) {
                 // Convert the number to a string and splite the string every 3 charaters from the end
-                value = value.toString();
-                value = value.split(/(?=(?:...)*$)/);
-                value = value.join(",");
+                value = nFormatter(value);
                 return value;
               }
             }
@@ -64,6 +60,19 @@ export default class Chart extends Component {
         ]
       }
     };
+
+    function nFormatter(num) {
+      if (num >= 1000000000) {
+        return (num / 1000000000).toFixed(1).replace(/\.0$/, "") + "B";
+      }
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
+      }
+      if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace(/\.0$/, "") + "K";
+      }
+      return num;
+    }
 
     return (
       <div>

@@ -209,7 +209,7 @@ export default class Covid extends Component {
                 this.state.countrySelected.country &&
                 this.state.countrySelected.historicalData ? (
                   <div
-                    style={{ width: window.innerWidth }}
+                    style={{ width: window.innerWidth - 8 }}
                     className={"gContainer"}
                   >
                     <Chart

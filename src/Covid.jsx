@@ -3,6 +3,7 @@ import "./Covid.css";
 import _ from "lodash";
 import TableRows from "./TableRows";
 import Chart from "./Chart";
+import { initGA, PageView } from "./Tracking";
 
 export default class Covid extends Component {
   constructor() {
@@ -29,6 +30,9 @@ export default class Covid extends Component {
           () => this.updateGraph(json[0].country)
         )
       );
+
+    initGA("UA-165250761-1");
+    PageView();
   }
 
   getTotalCases = () => {
@@ -144,7 +148,9 @@ export default class Covid extends Component {
         }
       },
       () => {
-        fetch(`https://corona.lmao.ninja/v2/historical/${countryClicked}`)
+        fetch(
+          `https://corona.lmao.ninja/v2/historical/${countryClicked}?lastdays=60`
+        )
           .then(response => {
             if (response.ok) {
               this.setState({ historicalDataFetched: true });
@@ -236,6 +242,7 @@ export default class Covid extends Component {
                   </div>
                 )
               ) : null}
+              <div></div>
             </div>
 
             <div className={"Search"}>

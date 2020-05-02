@@ -12,6 +12,7 @@ export default class Covid extends Component {
       data: [],
       filteredData: [],
       filterValue: "",
+      daysOfData: 60,
       countrySelected: {},
       displayGraph: true,
       historicalDataFetched: true
@@ -31,8 +32,10 @@ export default class Covid extends Component {
         )
       );
 
-    initGA("UA-165250761-1");
-    PageView();
+    if (window.location.hostname !== "localhost") {
+      initGA("UA-165250761-1");
+      PageView();
+    }
   }
 
   getTotalCases = () => {
@@ -149,7 +152,7 @@ export default class Covid extends Component {
       },
       () => {
         fetch(
-          `https://corona.lmao.ninja/v2/historical/${countryClicked}?lastdays=60`
+          `https://corona.lmao.ninja/v2/historical/${this.state.countrySelected.country}?lastdays=${this.state.daysOfData}`
         )
           .then(response => {
             if (response.ok) {
@@ -173,31 +176,37 @@ export default class Covid extends Component {
     );
   };
 
+  daysOfDataChangeHandler = e => {
+    this.setState({ daysOfData: e.target.value }, () => {
+      this.updateGraph(this.state.countrySelected.country);
+    });
+  };
+
   render() {
     const { filteredData, filterValue } = this.state;
+    let graphDays = [1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 60, 70];
 
     return (
       <div className={"imageContainer"}>
         <div className={"backgroundContainer"}>
-          <div>
-            {this.state.data.length ? (
-              <div className="Header">
-                <div className={"Title"}>CoVid-19</div>
-                <div className={"MajorCounts"}>
-                  <div>{`Total Cases: ${this.getTotalCases()}`}</div>
-                  <div>{`Active: ${this.getActiveCases()}`}</div>
-                  <div> {`Recovered: ${this.getRecoveredCases()}`}</div>
-                  <div> {`Deaths: ${this.getDeaths()}`}</div>
-                </div>
-                <div className={"Refresh"}>
-                  <button onClick={this.refreshData}>Refresh</button>
-                  <div
-                    className={"UpdatedTime"}
-                  >{`Data Updated: ${this.getUpdatedTimeInfo()}`}</div>
-                </div>
+          {this.state.data.length ? (
+            <div className="Header">
+              <div className={"Title"}>CoVid-19</div>
+              <div className={"MajorCounts"}>
+                <div>{`Total Cases: ${this.getTotalCases()}`}</div>
+                <div>{`Active: ${this.getActiveCases()}`}</div>
+                <div> {`Recovered: ${this.getRecoveredCases()}`}</div>
+                <div> {`Deaths: ${this.getDeaths()}`}</div>
               </div>
-            ) : null}
-
+              <div className={"Refresh"}>
+                <button onClick={this.refreshData}>Refresh</button>
+                <div
+                  className={"UpdatedTime"}
+                >{`Data Updated: ${this.getUpdatedTimeInfo()}`}</div>
+              </div>
+            </div>
+          ) : null}
+          <div className={"textOpacityContainer"}>
             <div className={"countryStats"}>
               <div className={"graphDisplay"}>
                 {this.state.displayGraph ? (
@@ -242,7 +251,22 @@ export default class Covid extends Component {
                   </div>
                 )
               ) : null}
-              <div></div>
+            </div>
+            <div className={"daysDropDown"}>
+              <label>Days:</label>
+              <select
+                id="graphDays"
+                onChange={this.daysOfDataChangeHandler}
+                defaultValue={this.state.daysOfData}
+              >
+                {_.map(graphDays, (value, index) => {
+                  return (
+                    <option key={index} value={value}>
+                      {value}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
 
             <div className={"Search"}>

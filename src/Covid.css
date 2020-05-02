@@ -24,10 +24,13 @@
   font-weight: bold;
 }
 
-.countryStats {
+.textOpacityContainer {
   background-color: azure;
   color: black;
   opacity: 0.8;
+}
+
+.countryStats {
 }
 
 .graphDisplay {
@@ -47,6 +50,11 @@
   padding: 100px 0;
   border: 1px solid black;
   text-align: center;
+}
+
+.daysDropDown {
+  text-align: center;
+  font-size: 14px;
 }
 
 .TitleRow {
@@ -70,13 +78,9 @@
 
 .Scroll {
   overflow-y: scroll;
-  background-color: azure;
-  opacity: 0.8;
 }
 
 .Search {
-  background-color: azure;
-  opacity: 0.8;
   padding: 2px;
 }
 
@@ -180,6 +184,10 @@
 @media screen and (min-width: 351px) and (max-width: 600px) {
   .TitleRow {
     font-size: 12px;
+  }
+
+  .daysDropDown {
+    font-size: 10px;
   }
 
   .Row {

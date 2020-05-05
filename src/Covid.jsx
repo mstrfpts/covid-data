@@ -92,9 +92,21 @@ export default class Covid extends Component {
   getUpdatedTimeInfo = () => {
     let epochDate = this.state.data[0] ? this.state.data[0].updated : null;
     let dateString = new Date(epochDate).toLocaleString().split(",");
+    dateString[0] =
+      dateString[0].substring(0, 6) + dateString[0].split("/")[2].slice(0, 2);
     let formattedDateString = `${dateString[1]}, ${dateString[0]}`;
     return formattedDateString;
   };
+
+  getFormattedDate(offset = 0) {
+    let date = new Date();
+    let calculatedDay = new Date(date);
+    calculatedDay.setDate(calculatedDay.getDate() - offset);
+    let dateString = (
+      new Intl.DateTimeFormat("en-US").format(calculatedDay) + ""
+    ).slice(0, 6);
+    return dateString;
+  }
 
   debounceChangeHandler = _.debounce(searchQuery => {
     let items = this.state.data;
@@ -121,7 +133,6 @@ export default class Covid extends Component {
   }
 
   toggleGraphicalView = () => {
-    console.log("derd state", this.state);
     this.setState({ displayGraph: !this.state.displayGraph });
   };
 
@@ -134,12 +145,63 @@ export default class Covid extends Component {
   };
 
   updateCountryHistoricalData = countryData => {
-    this.setState({
-      countrySelected: {
-        ...this.state.countrySelected,
-        historicalData: countryData
+    let oneDayPriorDate = this.getFormattedDate(1);
+    let twoDaysPriorDate = this.getFormattedDate(2);
+
+    console.log("derd, yest date", oneDayPriorDate);
+    console.log("derd, yest date", twoDaysPriorDate);
+    console.log("derd 1", countryData.cases);
+    console.log("derd 1", countryData.cases[oneDayPriorDate]);
+    console.log("derd 1", countryData.cases[twoDaysPriorDate]);
+    console.log(
+      "derd, hist data",
+      _.find(Object.keys(countryData.cases), key => {
+        return key === oneDayPriorDate;
+      })
+    );
+
+    let oneDayPriorSelectedCountryCases = countryData.cases[oneDayPriorDate];
+    let oneDayPriorSelectedCountryDeaths = countryData.deaths[oneDayPriorDate];
+
+    let twoDaysPriorSelectedCountryCases = countryData.cases[twoDaysPriorDate];
+    let twoDaysPriorSelectedCountryDeaths =
+      countryData.deaths[twoDaysPriorDate];
+
+    /*let yesterdaySelectedCountryData = _.find(
+      this.state.countrySelectedHistoricalData
+      data => {
+        return data.country === this.state.countrySelected.country;
       }
+    );*/
+    let todaySelectedCountryData = _.find(this.state.data, data => {
+      return data.country === this.state.countrySelected.country;
     });
+
+    //console.log("derd, todaySelectdCountry", yesterdaySelectedCountryData);
+    console.log("derd, todaySelectdCountry", todaySelectedCountryData);
+
+    let countIncrement = {
+      cases: oneDayPriorSelectedCountryCases > twoDaysPriorSelectedCountryCases,
+      deaths:
+        oneDayPriorSelectedCountryDeaths > twoDaysPriorSelectedCountryDeaths
+    };
+
+    countIncrement
+      ? countIncrement.cases
+        ? console.log("derd, state, count", countIncrement)
+        : console.log("derd, no increment")
+      : console.log("no count");
+
+    this.setState(
+      {
+        countrySelected: {
+          ...this.state.countrySelected,
+          historicalData: countryData,
+          countIncrement: countIncrement
+        }
+      },
+      () => console.log("state", this.state)
+    );
   };
 
   updateGraph = countryClicked => {
@@ -235,6 +297,18 @@ export default class Covid extends Component {
                       parameter={"Cases"}
                       color={"rgba(35, 52, 239, 1)"}
                     />
+                    <div style={{ marginTop: 70 }}>
+                      {this.state.countrySelected.countIncrement.cases ? (
+                        <p>
+                          <i className="arrow up"></i>
+                        </p>
+                      ) : (
+                        <p>
+                          <i className="arrow down"></i>
+                        </p>
+                      )}
+                    </div>
+
                     <Chart
                       country={this.state.countrySelected.country}
                       historicalData={

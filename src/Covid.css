@@ -154,6 +154,36 @@
   opacity: 1;
 }
 
+.arrow {
+  display: inline-block;
+  padding: 3px;
+  height: 100%;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  border: solid red;
+  border-width: 0 3px 3px 0;
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  border: solid green;
+  border-width: 0 3px 3px 0;
+}
+
 @media screen and (max-width: 350px) {
   .gContainer {
     margin: 0 -4px;

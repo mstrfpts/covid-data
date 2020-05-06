@@ -333,7 +333,7 @@ export default class Covid extends Component {
             </div>
             {this.state.displayGraph ? (
               <div className={"daysDropDown"}>
-                <label className={"graphDropwdownLabel"}>Data on:</label>
+                <label className={"graphDropwdownLabel"}>Graph data on:</label>
                 <select
                   className={"graphDropdown"}
                   id="graphData"

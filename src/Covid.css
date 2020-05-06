@@ -31,10 +31,19 @@
 }
 
 .countryStats {
+  background-color: #e5f9ff;
 }
 
 .graphDisplay {
   text-align: center;
+}
+
+.graphDropwdownLabel {
+  margin-left: -25px;
+}
+
+.graphDropdown {
+  margin-right: 20px;
 }
 
 .gContainer {
@@ -53,8 +62,10 @@
 }
 
 .daysDropDown {
+  background-color: #e5f9ff;
   text-align: center;
   font-size: 14px;
+  padding-bottom: 5px;
 }
 
 .TitleRow {
@@ -82,6 +93,8 @@
 
 .Search {
   padding: 2px;
+  border: 2px solid black;
+  border-bottom: none;
 }
 
 .Refresh {

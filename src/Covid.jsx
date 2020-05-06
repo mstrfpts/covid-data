@@ -186,6 +186,7 @@ export default class Covid extends Component {
     let historicalDataDailyCount = { cases: {}, deaths: {} };
     let dailyCasesCountValues = [];
     let dailyDeathsCountValues = [];
+    let historicalDataDailyCasesCalculated, historicalDataDailyDeathsCalculated;
     let historicalDataDailyCasesKeys = Object.keys(
       this.state.countrySelected.historicalData.cases
     );
@@ -200,19 +201,36 @@ export default class Covid extends Component {
     );
 
     for (let i = 0; i < historicalDataCasesValues.length - 1; i++) {
-      dailyCasesCountValues.push(
-        historicalDataCasesValues[i + 1] - historicalDataCasesValues[i]
-      );
-      historicalDataDailyCount.cases[historicalDataDailyCasesKeys[i + 1]] =
-        historicalDataCasesValues[i + 1] - historicalDataCasesValues[i];
+      if (historicalDataCasesValues[i + 1] - historicalDataCasesValues[i] < 0) {
+        historicalDataDailyCasesCalculated = historicalDataCasesValues[i - 1]
+          ? historicalDataCasesValues[i] - historicalDataCasesValues[i - 1]
+          : 0;
+      } else {
+        historicalDataDailyCasesCalculated =
+          historicalDataCasesValues[i + 1] - historicalDataCasesValues[i];
+      }
+      dailyCasesCountValues.push(historicalDataDailyCasesCalculated);
+      historicalDataDailyCount.cases[
+        historicalDataDailyCasesKeys[i + 1]
+      ] = historicalDataDailyCasesCalculated;
     }
 
     for (let i = 0; i < historicalDataDeathsValues.length - 1; i++) {
-      dailyDeathsCountValues.push(
-        historicalDataDeathsValues[i + 1] - historicalDataDeathsValues[i]
-      );
-      historicalDataDailyCount.deaths[historicalDataDailyDeathsKeys[i + 1]] =
-        historicalDataDeathsValues[i + 1] - historicalDataDeathsValues[i];
+      if (
+        historicalDataDeathsValues[i + 1] - historicalDataDeathsValues[i] <
+        0
+      ) {
+        historicalDataDailyDeathsCalculated = historicalDataDeathsValues[i - 1]
+          ? historicalDataDeathsValues[i] - historicalDataDeathsValues[i - 1]
+          : 0;
+      } else {
+        historicalDataDailyDeathsCalculated =
+          historicalDataDeathsValues[i + 1] - historicalDataDeathsValues[i];
+      }
+      dailyDeathsCountValues.push(historicalDataDailyDeathsCalculated);
+      historicalDataDailyCount.deaths[
+        historicalDataDailyDeathsKeys[i + 1]
+      ] = historicalDataDailyDeathsCalculated;
     }
 
     this.setState({
@@ -313,36 +331,39 @@ export default class Covid extends Component {
                 )
               ) : null}
             </div>
-            <div className={"daysDropDown"}>
-              <label>Data on:</label>
-              <select
-                id="graphData"
-                onChange={this.graphDataChangeHandler}
-                defaultValue={this.state.graphData}
-              >
-                {_.map(graphDataOptions, (value, index) => {
-                  return (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  );
-                })}
-              </select>
-              <label>Days:</label>
-              <select
-                id="graphDays"
-                onChange={this.daysOfDataChangeHandler}
-                defaultValue={this.state.daysOfData}
-              >
-                {_.map(graphDaysOptions, (value, index) => {
-                  return (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+            {this.state.displayGraph ? (
+              <div className={"daysDropDown"}>
+                <label className={"graphDropwdownLabel"}>Data on:</label>
+                <select
+                  className={"graphDropdown"}
+                  id="graphData"
+                  onChange={this.graphDataChangeHandler}
+                  defaultValue={this.state.graphData}
+                >
+                  {_.map(graphDataOptions, (value, index) => {
+                    return (
+                      <option key={index} value={value}>
+                        {value}
+                      </option>
+                    );
+                  })}
+                </select>
+                <label>Days:</label>
+                <select
+                  id="graphDays"
+                  onChange={this.daysOfDataChangeHandler}
+                  defaultValue={this.state.daysOfData}
+                >
+                  {_.map(graphDaysOptions, (value, index) => {
+                    return (
+                      <option key={index} value={value}>
+                        {value}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            ) : null}
 
             <div className={"Search"}>
               {this.state.data.length ? (

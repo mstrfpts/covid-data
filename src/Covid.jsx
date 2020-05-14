@@ -128,7 +128,7 @@ export default class Covid extends Component {
 
   scrollHeightSetter = () => {
     let scrollHeight = this.state.displayGraph
-      ? window.innerHeight - 460
+      ? window.innerHeight - 300
       : window.innerHeight - 220;
 
     return scrollHeight;

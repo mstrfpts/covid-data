@@ -3,6 +3,7 @@ import "./Covid.css";
 import _ from "lodash";
 import TableRows from "./TableRows";
 import Chart from "./Chart";
+import formattedDate from "./Date";
 
 import { initGA, PageView } from "./Tracking";
 
@@ -148,16 +149,32 @@ export default class Covid extends Component {
     );
   };
 
+  updateCountryData = countryClicked => {
+    let countriesDataArray = this.state.data;
+    let selectedCountryData = countriesDataArray.find(
+      element => element.country == countryClicked
+    );
+
+    this.setState({
+      countrySelected: {
+        country: countryClicked,
+        countryData: selectedCountryData
+      }
+    });
+  };
+
   updateGraph = countryClicked => {
     let { daysOfData } = this.state;
     let countrySelectedHistoricalData;
 
     this.setState(
-      {
+      /*{
         countrySelected: {
           country: countryClicked
-        }
-      },
+        }*
+      }*/ this.updateCountryData(
+        countryClicked
+      ),
       () => {
         fetch(
           `https://corona.lmao.ninja/v2/historical/${this.state.countrySelected.country}?lastdays=${daysOfData}`
@@ -211,7 +228,7 @@ export default class Covid extends Component {
         historicalDataDailyCasesCalculated =
           historicalDataCasesValues[i + 1] - historicalDataCasesValues[i];
       }
-      dailyCasesCountValues.push(historicalDataDailyCasesCalculated);
+      //dailyCasesCountValues.push(historicalDataDailyCasesCalculated);
       historicalDataDailyCount.cases[
         historicalDataDailyCasesKeys[i + 1]
       ] = historicalDataDailyCasesCalculated;
@@ -229,11 +246,33 @@ export default class Covid extends Component {
         historicalDataDailyDeathsCalculated =
           historicalDataDeathsValues[i + 1] - historicalDataDeathsValues[i];
       }
-      dailyDeathsCountValues.push(historicalDataDailyDeathsCalculated);
+      //dailyDeathsCountValues.push(historicalDataDailyDeathsCalculated);
       historicalDataDailyCount.deaths[
         historicalDataDailyDeathsKeys[i + 1]
       ] = historicalDataDailyDeathsCalculated;
     }
+
+    /*Adding todays Live Data to historical data*/
+    let historicalData = this.state.countrySelected.historicalData;
+    let del = formattedDate(this.state.daysOfData * -1);
+    delete historicalData.cases[del];
+    delete historicalData.deaths[del];
+
+    historicalData.cases[
+      formattedDate()
+    ] = this.state.countrySelected.countryData.cases;
+
+    historicalDataDailyCount.cases[
+      formattedDate()
+    ] = this.state.countrySelected.countryData.todayCases;
+
+    historicalData.deaths[
+      formattedDate()
+    ] = this.state.countrySelected.countryData.deaths;
+
+    historicalDataDailyCount.deaths[
+      formattedDate()
+    ] = this.state.countrySelected.countryData.todayDeaths;
 
     this.setState({
       countrySelected: {
@@ -257,7 +296,7 @@ export default class Covid extends Component {
 
   render() {
     const { filteredData, filterValue, graphData } = this.state;
-    let graphDaysOptions = [2, 3, 4, 5, 10, 20, 30, 40, 50, 60, 70];
+    let graphDaysOptions = [1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 60, 70];
     let graphDataOptions = ["Cases", "Deaths"];
 
     return (

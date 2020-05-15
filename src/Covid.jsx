@@ -3,6 +3,7 @@ import "./Covid.css";
 import _ from "lodash";
 import TableRows from "./TableRows";
 import Chart from "./Chart";
+
 import { initGA, PageView } from "./Tracking";
 
 export default class Covid extends Component {
@@ -122,7 +123,6 @@ export default class Covid extends Component {
   }
 
   toggleGraphicalView = () => {
-    console.log("derd state", this.state);
     this.setState({ displayGraph: !this.state.displayGraph });
   };
 
@@ -149,7 +149,9 @@ export default class Covid extends Component {
   };
 
   updateGraph = countryClicked => {
+    let { daysOfData } = this.state;
     let countrySelectedHistoricalData;
+
     this.setState(
       {
         countrySelected: {
@@ -158,7 +160,7 @@ export default class Covid extends Component {
       },
       () => {
         fetch(
-          `https://corona.lmao.ninja/v2/historical/${this.state.countrySelected.country}?lastdays=${this.state.daysOfData}`
+          `https://corona.lmao.ninja/v2/historical/${this.state.countrySelected.country}?lastdays=${daysOfData}`
         )
           .then(response => {
             if (response.ok) {
@@ -242,7 +244,7 @@ export default class Covid extends Component {
   };
 
   daysOfDataChangeHandler = e => {
-    this.setState({ daysOfData: e.target.value }, () => {
+    this.setState({ daysOfData: parseInt(e.target.value) }, () => {
       this.updateGraph(this.state.countrySelected.country);
     });
   };
@@ -255,7 +257,7 @@ export default class Covid extends Component {
 
   render() {
     const { filteredData, filterValue, graphData } = this.state;
-    let graphDaysOptions = [1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 60, 70];
+    let graphDaysOptions = [2, 3, 4, 5, 10, 20, 30, 40, 50, 60, 70];
     let graphDataOptions = ["Cases", "Deaths"];
 
     return (

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Line, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import "./Chart.css";
 
 export default class Chart extends Component {
@@ -10,22 +10,18 @@ export default class Chart extends Component {
         {
           label: `${this.props.country} ${this.props.parameter}`,
           fill: true,
-          lineTension: 0.1,
-          backgroundColor: this.props.color, //"rgba(75,192,192,0.4)",
-          borderColor: this.props.color, //"rgba(35, 52, 239, 1)", //"rgba(75,192,192,1)",
+          backgroundColor: this.props.color,
+          borderColor: this.props.color,
           borderCapStyle: "butt",
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: "miter",
-          //pointBorderColor: "rgba(75,192,192,1)",
+
           pointBackgroundColor: "#fff",
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          //pointHoverBackgroundColor: "rgba(75,192,192,1)",
-          //pointHoverBorderColor: "rgba(220,220,220,1)",
-          //pointHoverBorderWidth: 2,
           pointRadius: 1,
-          //pointHitRadius: 10,
+
           data: Object.values(this.props.historicalData)
         }
       ]

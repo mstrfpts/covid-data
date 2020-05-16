@@ -3,7 +3,11 @@ import "./TableRows.css";
 
 export default class TableRows extends Component {
   addCommasToNumber(x) {
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    if (Number.isInteger(x)) {
+      return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    } else {
+      return 0;
+    }
   }
 
   clickHandler = () => {

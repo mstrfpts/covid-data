@@ -3,7 +3,6 @@ import React from "react";
 import TableRows from "./TableRows";
 import TableTitleColumns from "./TableTitleColumns";
 import "./TableRows.css";
-import _ from "lodash";
 
 const Table = props => {
   return (

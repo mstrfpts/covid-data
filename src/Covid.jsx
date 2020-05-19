@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./Covid.css";
 import _ from "lodash";
-import TableRows from "./TableRows";
-import Chart from "./Chart";
-import formattedDate from "./Date";
+import Table from "./Components/Table";
+import Chart from "./Components/Chart";
+import formattedDate from "./Components/Date";
 
 import { initGA, PageView } from "./Tracking";
 
@@ -23,6 +23,8 @@ export default class Covid extends Component {
   }
 
   componentDidMount() {
+    document.title = "Coronavirus case count";
+
     fetch(`https://corona.lmao.ninja/v2/countries?sort=cases`)
       .then(res => res.json())
       .then(json =>
@@ -152,7 +154,7 @@ export default class Covid extends Component {
   updateCountryData = countryClicked => {
     let countriesDataArray = this.state.data;
     let selectedCountryData = countriesDataArray.find(
-      element => element.country == countryClicked
+      element => element.country === countryClicked
     );
 
     this.setState({
@@ -298,6 +300,13 @@ export default class Covid extends Component {
     const { filteredData, filterValue, graphData } = this.state;
     let graphDaysOptions = [1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 60, 70];
     let graphDataOptions = ["Cases", "Deaths"];
+    let tableColumns = [
+      "Country",
+      "Cases(+new)",
+      "Active",
+      "Deaths(+new)",
+      "Tests"
+    ];
 
     return (
       <div className={"imageContainer"}>
@@ -424,33 +433,12 @@ export default class Covid extends Component {
               ) : null}
             </div>
 
-            <table id="Header" className={"Table"}>
-              <tbody>
-                <tr className={"TitleRow"}>
-                  <th className={"Col"}>Country</th>
-                  <th className={"Col"}>Cases(+new)</th>
-                  <th className={"Col"}>Active </th>
-                  <th className={"Col"}>Deaths(+new)</th>
-                  <th className={"Col"}>Tests</th>
-                </tr>
-              </tbody>
-
-              <div
-                style={{
-                  height: this.scrollHeightSetter()
-                }}
-                className={"Scroll"}
-              >
-                {filteredData.map((el, index) => (
-                  <TableRows
-                    key={index}
-                    row={el}
-                    index={index}
-                    updateGraph={this.updateGraph}
-                  />
-                ))}
-              </div>
-            </table>
+            <Table
+              columns={tableColumns}
+              heightSetter={this.scrollHeightSetter}
+              filteredData={filteredData}
+              updateGraph={this.updateGraph}
+            />
           </div>
         </div>
       </div>

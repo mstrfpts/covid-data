@@ -23,6 +23,8 @@ export default class Covid extends Component {
   }
 
   componentDidMount() {
+    document.title = "Coronavirus case count";
+
     fetch(`https://corona.lmao.ninja/v2/countries?sort=cases`)
       .then(res => res.json())
       .then(json =>

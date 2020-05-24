@@ -14,7 +14,7 @@ export default class Covid extends Component {
       data: [],
       filteredData: [],
       filterValue: "",
-      daysOfData: 60,
+      daysOfData: 30,
       graphData: "Cases",
       countrySelected: {},
       displayGraph: true,
@@ -298,7 +298,23 @@ export default class Covid extends Component {
 
   render() {
     const { filteredData, filterValue, graphData } = this.state;
-    let graphDaysOptions = [1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 60, 70];
+    let graphDaysOptions = [
+      1,
+      2,
+      3,
+      4,
+      5,
+      10,
+      20,
+      30,
+      40,
+      50,
+      60,
+      70,
+      80,
+      90,
+      100
+    ];
     let graphDataOptions = ["Cases", "Deaths"];
     let tableColumns = [
       "Country",

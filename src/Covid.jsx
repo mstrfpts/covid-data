@@ -169,38 +169,29 @@ export default class Covid extends Component {
     let { daysOfData } = this.state;
     let countrySelectedHistoricalData;
 
-    this.setState(
-      /*{
-        countrySelected: {
-          country: countryClicked
-        }*
-      }*/ this.updateCountryData(
-        countryClicked
-      ),
-      () => {
-        fetch(
-          `https://corona.lmao.ninja/v2/historical/${this.state.countrySelected.country}?lastdays=${daysOfData}`
-        )
-          .then(response => {
-            if (response.ok) {
-              this.setState({ historicalDataFetched: true });
-              return response.json();
-            } else {
-              this.setState({ historicalDataFetched: false });
-              throw new Error("Historical fetch failed/timeout");
-            }
-          })
-          .then(json => (countrySelectedHistoricalData = json))
-          .then(countrySelectedHistoricalData =>
-            this.updateCountryHistoricalData(
-              countrySelectedHistoricalData.timeline
-            )
+    this.setState(this.updateCountryData(countryClicked), () => {
+      fetch(
+        `https://corona.lmao.ninja/v2/historical/${this.state.countrySelected.country}?lastdays=${daysOfData}`
+      )
+        .then(response => {
+          if (response.ok) {
+            this.setState({ historicalDataFetched: true });
+            return response.json();
+          } else {
+            this.setState({ historicalDataFetched: false });
+            throw new Error("Historical fetch failed/timeout");
+          }
+        })
+        .then(json => (countrySelectedHistoricalData = json))
+        .then(countrySelectedHistoricalData =>
+          this.updateCountryHistoricalData(
+            countrySelectedHistoricalData.timeline
           )
-          .catch(error => {
-            console.log(error);
-          });
-      }
-    );
+        )
+        .catch(error => {
+          console.log(error);
+        });
+    });
   };
 
   getDailyCount = () => {

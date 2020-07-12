@@ -301,9 +301,10 @@ export default class Covid extends Component {
       40,
       50,
       60,
+      70,
+      80,
       90,
-      120,
-      150
+      100,
     ];
     let graphDataOptions = ["Cases", "Deaths"];
     let tableColumns = [

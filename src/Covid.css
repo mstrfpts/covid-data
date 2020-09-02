@@ -38,7 +38,7 @@
   text-align: center;
 }
 
-.graphDropwdownLabel {
+.graphDropdownLabel {
   margin-left: -25px;
 }
 
@@ -95,6 +95,10 @@
   padding: 2px;
   border: 2px solid black;
   border-bottom: none;
+}
+
+.SortList {
+  margin-left: 50px;
 }
 
 .Refresh {
@@ -192,9 +196,19 @@
   .filterClear {
     left: 120px;
   }
+
+  .SortList {
+    position: absolute;
+    right: 0px;
+  }
 }
 
 @media screen and (min-width: 351px) and (max-width: 600px) {
+  .SortList {
+    position: absolute;
+    right: 0px;
+    font-size: 10px;
+  }
   .TitleRow {
     font-size: 12px;
   }

@@ -18,20 +18,22 @@ export default class Covid extends Component {
       graphData: "Cases",
       countrySelected: {},
       displayGraph: true,
-      historicalDataFetched: true
+      historicalDataFetched: true,
+      tableColumns: ["Cases", "Active", "Deaths", "Country", "Tests"],
+      sortBy: "cases",
     };
   }
 
   componentDidMount() {
     document.title = "Coronavirus case count";
 
-    fetch(`https://corona.lmao.ninja/v2/countries?sort=cases`)
-      .then(res => res.json())
-      .then(json =>
+    fetch(`https://corona.lmao.ninja/v2/countries?sort=${this.state.sortBy}`)
+      .then((res) => res.json())
+      .then((json) =>
         this.setState(
           {
             data: json,
-            filteredData: json
+            filteredData: json,
           },
           () => this.updateGraph(json[0].country)
         )
@@ -44,7 +46,7 @@ export default class Covid extends Component {
   }
 
   getTotalCases = () => {
-    let sumIs = _.sumBy(this.state.data, el => {
+    let sumIs = _.sumBy(this.state.data, (el) => {
       if (el.country === "World") {
         return 0;
       } else {
@@ -55,7 +57,7 @@ export default class Covid extends Component {
   };
 
   getActiveCases = () => {
-    let sumIs = _.sumBy(this.state.data, el => {
+    let sumIs = _.sumBy(this.state.data, (el) => {
       if (el.country === "World") {
         return 0;
       } else {
@@ -66,7 +68,7 @@ export default class Covid extends Component {
   };
 
   getDeaths = () => {
-    let sumIs = _.sumBy(this.state.data, el => {
+    let sumIs = _.sumBy(this.state.data, (el) => {
       if (el.country === "World") {
         return 0;
       } else {
@@ -77,7 +79,7 @@ export default class Covid extends Component {
   };
 
   getRecoveredCases = () => {
-    let sumIs = _.sumBy(this.state.data, el => {
+    let sumIs = _.sumBy(this.state.data, (el) => {
       if (el.country === "World") {
         return 0;
       } else {
@@ -88,9 +90,9 @@ export default class Covid extends Component {
   };
 
   refreshData = () => {
-    fetch(`https://corona.lmao.ninja/v2/countries?sort=cases`)
-      .then(res => res.json())
-      .then(json => this.setState({ data: json }))
+    fetch(`https://corona.lmao.ninja/v2/countries?sort=${this.state.sortBy}`)
+      .then((res) => res.json())
+      .then((json) => this.setState({ data: json }))
       .then(this.debounceChangeHandler(this.state.filterValue));
   };
 
@@ -101,9 +103,9 @@ export default class Covid extends Component {
     return formattedDateString;
   };
 
-  debounceChangeHandler = _.debounce(searchQuery => {
+  debounceChangeHandler = _.debounce((searchQuery) => {
     let items = this.state.data;
-    items = _.filter(items, item => {
+    items = _.filter(items, (item) => {
       return (
         item.country.toLowerCase().search(searchQuery.toLowerCase()) !== -1
       );
@@ -111,7 +113,7 @@ export default class Covid extends Component {
     this.setState({ filteredData: items });
   }, 250);
 
-  filterList = event => {
+  filterList = (event) => {
     let searchQuery = event.target.value;
     this.setState({ filterValue: searchQuery });
     this.debounceChangeHandler(searchQuery);
@@ -137,13 +139,13 @@ export default class Covid extends Component {
     return scrollHeight;
   };
 
-  updateCountryHistoricalData = countryData => {
+  updateCountryHistoricalData = (countryData) => {
     this.setState(
       {
         countrySelected: {
           ...this.state.countrySelected,
-          historicalData: countryData
-        }
+          historicalData: countryData,
+        },
       },
       () => {
         this.getDailyCount();
@@ -151,28 +153,28 @@ export default class Covid extends Component {
     );
   };
 
-  updateCountryData = countryClicked => {
+  updateCountryData = (countryClicked) => {
     let countriesDataArray = this.state.data;
     let selectedCountryData = countriesDataArray.find(
-      element => element.country === countryClicked
+      (element) => element.country === countryClicked
     );
 
     this.setState({
       countrySelected: {
         country: countryClicked,
-        countryData: selectedCountryData
-      }
+        countryData: selectedCountryData,
+      },
     });
   };
 
-  updateGraph = countryClicked => {
+  updateGraph = (countryClicked) => {
     let { daysOfData } = this.state;
 
     this.setState(this.updateCountryData(countryClicked), () => {
       fetch(
         `https://corona.lmao.ninja/v2/historical/${this.state.countrySelected.country}?lastdays=${daysOfData}`
       )
-        .then(response => {
+        .then((response) => {
           if (response.ok) {
             this.setState({ historicalDataFetched: true });
             return response.json();
@@ -181,8 +183,8 @@ export default class Covid extends Component {
             throw new Error("Historical fetch failed/timeout");
           }
         })
-        .then(json => this.updateCountryHistoricalData(json.timeline))
-        .catch(error => {
+        .then((json) => this.updateCountryHistoricalData(json.timeline))
+        .catch((error) => {
           console.log(error);
         });
     });
@@ -213,7 +215,7 @@ export default class Covid extends Component {
         historicalDataDailyCasesCalculated =
           historicalDataCasesValues[i + 1] - historicalDataCasesValues[i];
       }
-      
+
       historicalDataDailyCount.cases[
         historicalDataDailyCasesKeys[i + 1]
       ] = historicalDataDailyCasesCalculated;
@@ -231,7 +233,7 @@ export default class Covid extends Component {
         historicalDataDailyDeathsCalculated =
           historicalDataDeathsValues[i + 1] - historicalDataDeathsValues[i];
       }
-      
+
       historicalDataDailyCount.deaths[
         historicalDataDailyDeathsKeys[i + 1]
       ] = historicalDataDailyDeathsCalculated;
@@ -262,20 +264,26 @@ export default class Covid extends Component {
     this.setState({
       countrySelected: {
         ...this.state.countrySelected,
-        historicalDataDailyCount: historicalDataDailyCount
-      }
+        historicalDataDailyCount: historicalDataDailyCount,
+      },
     });
   };
 
-  daysOfDataChangeHandler = e => {
+  daysOfDataChangeHandler = (e) => {
     this.setState({ daysOfData: parseInt(e.target.value) }, () => {
       this.updateGraph(this.state.countrySelected.country);
     });
   };
 
-  graphDataChangeHandler = e => {
+  graphDataChangeHandler = (e) => {
     this.setState({ graphData: e.target.value }, () => {
       this.updateGraph(this.state.countrySelected.country);
+    });
+  };
+
+  sortListChangeHandler = (e) => {
+    this.setState({ sortBy: e.target.value.toLowerCase() }, () => {
+      this.refreshData();
     });
   };
 
@@ -302,7 +310,7 @@ export default class Covid extends Component {
       210,
       240,
       260,
-      300
+      300,
     ];
     let graphDataOptions = ["Cases", "Deaths"];
     let tableColumns = [
@@ -310,7 +318,7 @@ export default class Covid extends Component {
       "Cases(+new)",
       "Active",
       "Deaths(+new)",
-      "Tests"
+      "Tests",
     ];
 
     return (
@@ -388,7 +396,7 @@ export default class Covid extends Component {
             </div>
             {this.state.displayGraph ? (
               <div className={"daysDropDown"}>
-                <label className={"graphDropwdownLabel"}>Graph data on:</label>
+                <label className={"graphDropdownLabel"}>Graph data on:</label>
                 <select
                   className={"graphDropdown"}
                   id="graphData"
@@ -434,6 +442,23 @@ export default class Covid extends Component {
                       &times;
                     </span>
                   ) : null}
+                  <span className={"SortList"}>
+                    <label>Sort by :</label>
+                    <select
+                      className={"graphDropdown"}
+                      id="sortList"
+                      onChange={this.sortListChangeHandler}
+                      defaultValue={this.state.sortBy}
+                    >
+                      {_.map(this.state.tableColumns, (value, index) => {
+                        return (
+                          <option key={index} value={value}>
+                            {value}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </span>
                 </form>
               ) : null}
             </div>

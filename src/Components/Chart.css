@@ -10,3 +10,11 @@
     margin: 0 -1px;
   }
 }
+
+@media screen and (min-width: 351px) and (max-width: 600px) {
+  .graphContainer {
+    height: 175px;
+    width: 175px;
+    margin: 0 -1px;
+  }
+}

@@ -6,8 +6,8 @@ const TableTitleColumns = props => {
   return (
     <div>
       <tr className={"TitleRow"}>
-        {_.map(props.columns, col => {
-          return <th className={"Col"}>{col}</th>;
+        {_.map(props.columns, (col, index) => {
+          return <th key={`tableTitleColumns_${index}`} className={"Col"}>{col}</th>;
         })}
       </tr>
     </div>

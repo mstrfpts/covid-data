@@ -89,13 +89,14 @@
   background-color: lightgray;
   font-size: 16px;
   font-weight: bold;
+  border-radius: 4px;
 }
 
 .Table {
   width: 100%;
   border-spacing: 0px;
-  border: 1px solid black;
 }
+
 .Col {
   flex: 1;
   padding: 2px;
@@ -147,6 +148,7 @@
   letter-spacing: 1px;
   font-weight: bold;
   padding: 3px;
+  border-radius: 3px;
 }
 .Row:hover {
   background-color: lightblue;
@@ -203,10 +205,12 @@
 
   .TitleRow {
     font-size: 9px;
+    border-radius: 4px;
   }
 
   .Row {
     font-size: 7px;
+    border-radius: 3px;
   }
 
   .MajorCounts {
@@ -235,6 +239,7 @@
   }
   .TitleRow {
     font-size: 12px;
+    border-radius: 4px;
   }
 
   .daysDropDown {
@@ -243,6 +248,7 @@
 
   .Row {
     font-size: 10px;
+    border-radius: 3px;
   }
 
   .MajorCounts {

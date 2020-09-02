@@ -167,7 +167,6 @@ export default class Covid extends Component {
 
   updateGraph = countryClicked => {
     let { daysOfData } = this.state;
-    let countrySelectedHistoricalData;
 
     this.setState(this.updateCountryData(countryClicked), () => {
       fetch(
@@ -182,12 +181,7 @@ export default class Covid extends Component {
             throw new Error("Historical fetch failed/timeout");
           }
         })
-        .then(json => (countrySelectedHistoricalData = json))
-        .then(countrySelectedHistoricalData =>
-          this.updateCountryHistoricalData(
-            countrySelectedHistoricalData.timeline
-          )
-        )
+        .then(json => this.updateCountryHistoricalData(json.timeline))
         .catch(error => {
           console.log(error);
         });
@@ -196,8 +190,6 @@ export default class Covid extends Component {
 
   getDailyCount = () => {
     let historicalDataDailyCount = { cases: {}, deaths: {} };
-    let dailyCasesCountValues = [];
-    let dailyDeathsCountValues = [];
     let historicalDataDailyCasesCalculated, historicalDataDailyDeathsCalculated;
     let historicalDataDailyCasesKeys = Object.keys(
       this.state.countrySelected.historicalData.cases
@@ -221,7 +213,7 @@ export default class Covid extends Component {
         historicalDataDailyCasesCalculated =
           historicalDataCasesValues[i + 1] - historicalDataCasesValues[i];
       }
-      //dailyCasesCountValues.push(historicalDataDailyCasesCalculated);
+      
       historicalDataDailyCount.cases[
         historicalDataDailyCasesKeys[i + 1]
       ] = historicalDataDailyCasesCalculated;
@@ -239,7 +231,7 @@ export default class Covid extends Component {
         historicalDataDailyDeathsCalculated =
           historicalDataDeathsValues[i + 1] - historicalDataDeathsValues[i];
       }
-      //dailyDeathsCountValues.push(historicalDataDailyDeathsCalculated);
+      
       historicalDataDailyCount.deaths[
         historicalDataDailyDeathsKeys[i + 1]
       ] = historicalDataDailyDeathsCalculated;

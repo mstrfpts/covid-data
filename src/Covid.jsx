@@ -282,7 +282,11 @@ export default class Covid extends Component {
   };
 
   sortListChangeHandler = (e) => {
-    this.setState({ sortBy: e.target.value.toLowerCase() }, () => {
+    let sortTerm = e.target.value.toLowerCase();
+    if (sortTerm === "country") {
+      sortTerm = sortTerm + "asc";
+    }
+    this.setState({ sortBy: sortTerm }, () => {
       this.refreshData();
     });
   };

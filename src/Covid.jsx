@@ -14,7 +14,7 @@ export default class Covid extends Component {
       data: [],
       filteredData: [],
       filterValue: "",
-      daysOfData: 30,
+      daysOfData: 60,
       graphData: "Cases",
       countrySelected: {},
       displayGraph: true,
@@ -302,11 +302,9 @@ export default class Covid extends Component {
       10,
       20,
       30,
-      40,
-      50,
+      45,
       60,
-      70,
-      80,
+      75,
       90,
       120,
       150,
@@ -345,59 +343,58 @@ export default class Covid extends Component {
               </div>
             </div>
           ) : null}
-          <div className={"textOpacityContainer"}>
-            <div className={"countryStats"}>
-              <div className={"graphDisplay"}>
-                {this.state.displayGraph ? (
-                  <button onClick={this.toggleGraphicalView}>
-                    Close Graphical View
-                  </button>
-                ) : (
-                  <button onClick={this.toggleGraphicalView}>
-                    Show Graphical View
-                  </button>
-                )}
-              </div>
 
+          <div className={"countryStats"}>
+            <div className={"graphDisplay"}>
               {this.state.displayGraph ? (
-                this.state.countrySelected.country &&
-                this.state.countrySelected.historicalData &&
-                this.state.countrySelected.historicalDataDailyCount ? (
-                  <div
-                    style={{ width: window.innerWidth - 8 }}
-                    className={"gContainer"}
-                  >
-                    <Chart
-                      country={this.state.countrySelected.country}
-                      historicalData={
-                        graphData === "Cases"
-                          ? this.state.countrySelected.historicalDataDailyCount
-                              .cases
-                          : this.state.countrySelected.historicalDataDailyCount
-                              .deaths
-                      }
-                      parameter={`Daily ${graphData}`}
-                      color={graphData === "Cases" ? "blue" : "red"}
-                    />
-                    <Chart
-                      country={this.state.countrySelected.country}
-                      historicalData={
-                        graphData === "Cases"
-                          ? this.state.countrySelected.historicalData.cases
-                          : this.state.countrySelected.historicalData.deaths
-                      }
-                      parameter={`Total ${graphData}`}
-                      color={graphData === "Cases" ? "blue" : "red"}
-                    />
-                  </div>
-                ) : (
-                  <div className={"graphPlaceHolder"}>
-                    {this.state.historicalDataFetched ? `Awaiting ` : `No `}
-                    Graphical Information
-                  </div>
-                )
-              ) : null}
+                <button onClick={this.toggleGraphicalView}>
+                  Close Graphical View
+                </button>
+              ) : (
+                <button onClick={this.toggleGraphicalView}>
+                  Show Graphical View
+                </button>
+              )}
             </div>
+
+            {this.state.displayGraph ? (
+              this.state.countrySelected.country &&
+              this.state.countrySelected.historicalData &&
+              this.state.countrySelected.historicalDataDailyCount ? (
+                <div
+                  style={{ width: window.innerWidth - 8 }}
+                  className={"gContainer"}
+                >
+                  <Chart
+                    country={this.state.countrySelected.country}
+                    historicalData={
+                      graphData === "Cases"
+                        ? this.state.countrySelected.historicalDataDailyCount
+                            .cases
+                        : this.state.countrySelected.historicalDataDailyCount
+                            .deaths
+                    }
+                    parameter={`Daily ${graphData}`}
+                    color={graphData === "Cases" ? "blue" : "red"}
+                  />
+                  <Chart
+                    country={this.state.countrySelected.country}
+                    historicalData={
+                      graphData === "Cases"
+                        ? this.state.countrySelected.historicalData.cases
+                        : this.state.countrySelected.historicalData.deaths
+                    }
+                    parameter={`Total ${graphData}`}
+                    color={graphData === "Cases" ? "blue" : "red"}
+                  />
+                </div>
+              ) : (
+                <div className={"graphPlaceHolder"}>
+                  {this.state.historicalDataFetched ? `Awaiting ` : `No `}
+                  Graphical Information
+                </div>
+              )
+            ) : null}
             {this.state.displayGraph ? (
               <div className={"daysDropDown"}>
                 <label className={"graphDropdownLabel"}>Graph data on:</label>
@@ -431,7 +428,8 @@ export default class Covid extends Component {
                 </select>
               </div>
             ) : null}
-
+          </div>
+          <div className={"TableContainer"}>
             <div className={"Search"}>
               {this.state.data.length ? (
                 <form>

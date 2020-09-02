@@ -13,6 +13,11 @@
   text-align: center;
   background-color: azure;
   opacity: 0.6;
+  border-radius: 13px;
+  position: relative;
+  top: 3px;
+  margin: 3px;
+  padding: 3px;
 }
 
 .Title {
@@ -25,13 +30,22 @@
 }
 
 .textOpacityContainer {
-  background-color: azure;
+  /*background-color: azure;
   color: black;
-  opacity: 0.8;
+  opacity: 0.7;
+  position: relative;
+  top: 3px;
+  border-radius: 13px;*/
 }
 
 .countryStats {
   background-color: #e5f9ff;
+  opacity: 0.7;
+  position: relative;
+  top: 3px;
+  border: 5px solid transparent;
+  border-radius: 13px;
+  margin: 3px;
 }
 
 .graphDisplay {
@@ -91,10 +105,20 @@
   overflow-y: scroll;
 }
 
+.TableContainer {
+  background-color: #e5f9ff;
+  opacity: 0.7;
+  position: relative;
+  top: 3px;
+  border-radius: 13px;
+  margin: 3px;
+}
+
 .Search {
   padding: 2px;
-  border: 2px solid black;
-  border-bottom: none;
+  padding-left: 16px;
+  /*border: 2px solid black;
+  border-bottom: none;*/
 }
 
 .SortList {

@@ -336,7 +336,7 @@ export default class Covid extends Component {
                 <div> {`Deaths: ${this.getDeaths()}`}</div>
               </div>
               <div className={"Refresh"}>
-                <button onClick={this.refreshData}>Refresh</button>
+                {/*<button onClick={this.refreshData}>Refresh</button>*/}
                 <div
                   className={"UpdatedTime"}
                 >{`Data Updated: ${this.getUpdatedTimeInfo()}`}</div>
@@ -444,7 +444,7 @@ export default class Covid extends Component {
                       &times;
                     </span>
                   ) : null}
-                  <span className={"SortList"}>
+                  {/*<span className={"SortList"}>
                     <label>Sort by :</label>
                     <select
                       className={"graphDropdown"}
@@ -460,7 +460,7 @@ export default class Covid extends Component {
                         );
                       })}
                     </select>
-                  </span>
+                    </span>*/}
                 </form>
               ) : null}
             </div>

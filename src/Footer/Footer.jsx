@@ -6,10 +6,10 @@ class Footer extends Component {
     return (
       <footer>
         <nav>
-          <div className="tooltip">
-            Contact Team
-            <span className="tooltiptext">mstrfpts@gmail.com</span>
-          </div>
+          Created by{" "}
+          <span className="tooltip">
+            Derick D<span className="tooltiptext">mstrfpts@gmail.com</span>
+          </span>
         </nav>
       </footer>
     );

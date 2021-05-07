@@ -6,4 +6,4 @@ The app may lack a bit in styling but my major focus of getting the app up was t
 
 I have also written a similar app using pure Javascript functional programming using Functions, React hooks and Redux as opposed to classes and the class based store.
 
-Please do let me know how and where things could be improved.
+Please do let me know what you think and am open to suggestions/reviews.
